@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:optimijac/screens/register.dart';
 
-class Login extends StatefulWidget {
-  Login({Key? key}) : super(key: key);
+class Register extends StatefulWidget {
+  Register({Key? key}) : super(key: key);
 
   @override
-  State<Login> createState() => _LoginState();
+  State<Register> createState() => _RegisterState();
 }
 
-class _LoginState extends State<Login> {
+class _RegisterState extends State<Register> {
   bool _isObscure = true;
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class _LoginState extends State<Login> {
           Image(image: AssetImage('assets/images/logoverde144.png')),
           SizedBox(height: 10),
           Text(
-            'Optimijac',
+            'Registrarse',
             style: TextStyle(
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 48),
           ),
@@ -44,6 +43,28 @@ class _LoginState extends State<Login> {
                       border: InputBorder.none,
                       fillColor: Color(0xff04b554),
                       hintText: 'Usuario'),
+                ),
+              ),
+            ),
+          ),
+          SizedBox(height: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Colors.grey.shade200, width: 1),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: TextField(
+                  cursorColor: Color(0xff04b554),
+                  decoration: InputDecoration(
+                      icon: Icon(Icons.email, color: Color(0xff04b554)),
+                      border: InputBorder.none,
+                      fillColor: Color(0xff04b554),
+                      hintText: 'Correo'),
                 ),
               ),
             ),
@@ -96,7 +117,7 @@ class _LoginState extends State<Login> {
                   borderRadius: BorderRadius.circular(12)),
               child: Center(
                 child: Text(
-                  'Ingresar',
+                  'Registrar',
                   style: TextStyle(
                       color: Colors.white,
                       fontWeight: FontWeight.bold,
@@ -110,20 +131,15 @@ class _LoginState extends State<Login> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'No estás registrado? ',
+                'Ya estás registrado? ',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                      context,
-                      PageRouteBuilder(
-                        pageBuilder: (BuildContext context, animation1, animation2) => Register(),
-                        transitionDuration: Duration.zero,
-                      ));
+                  Navigator.pop(context);
                 },
                 child: Text(
-                  'Crea una cuenta',
+                  'Inicia sesión',
                   style: TextStyle(
                       decoration: TextDecoration.underline,
                       color: Color(0xff04b554),
