@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:optimijac/screens/barrios.dart';
+import 'package:optimijac/screens/comunas.dart';
 import 'package:optimijac/screens/habitantes.dart';
 import 'drawer_header.dart';
 
@@ -14,17 +15,22 @@ class _MenuState extends State<Menu> {
   var currentPage = DrawerSections.barrios;
   @override
   Widget build(BuildContext context) {
-     var container;
+    var container;
     if (currentPage == DrawerSections.barrios) {
       container = Barrios();
     } else if (currentPage == DrawerSections.habitantes) {
       container = Habitantes();
+    } else if (currentPage == DrawerSections.comunas) {
+      container = Comunas();
     }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff04b554),
         centerTitle: true,
-        title: Text('Optimijac', style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          'Optimijac',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
       ),
       body: container,
       drawer: Drawer(
@@ -50,7 +56,9 @@ class _MenuState extends State<Menu> {
           menuItem(1, "Barrios", Icons.house_rounded,
               currentPage == DrawerSections.barrios ? true : false),
           menuItem(2, "Habitantes", Icons.person_search,
-              currentPage == DrawerSections.habitantes ? true : false)
+              currentPage == DrawerSections.habitantes ? true : false),
+          menuItem(3, "Comunas", Icons.business_rounded,
+              currentPage == DrawerSections.comunas ? true : false)
         ],
       ),
     );
@@ -67,6 +75,8 @@ class _MenuState extends State<Menu> {
               currentPage = DrawerSections.barrios;
             } else if (id == 2) {
               currentPage = DrawerSections.habitantes;
+            } else if (id == 3) {
+              currentPage = DrawerSections.comunas;
             }
           });
         },
@@ -100,4 +110,4 @@ class _MenuState extends State<Menu> {
   }
 }
 
-enum DrawerSections { barrios, habitantes }
+enum DrawerSections { barrios, habitantes, comunas }
