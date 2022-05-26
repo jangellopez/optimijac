@@ -31,6 +31,9 @@ dependencies:
   google_fonts: 2.2.0
   firebase_core: 
   firebase_auth: 
+  cloud_firestore_web: ^2.6.15
+  fluttertoast: ^8.0.9
+  get:
 
 dev_dependencies:
   flutter_test:

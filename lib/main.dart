@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:optimijac/screens/login.dart';
+import 'package:optimijac/screens/login/login.dart';
+
 
 import 'screens/menu.dart';
 
-void main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: FirebaseOptions(
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Optimijac',
       theme: ThemeData(fontFamily: GoogleFonts.rubik().fontFamily),
-      home: Menu(),
+      home: Login(),
     );
   }
 }

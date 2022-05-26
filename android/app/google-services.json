@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "827456482415",
+    "project_id": "optimijac",
+    "storage_bucket": "optimijac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:827456482415:android:db772536ed2cefb181b19a",
+        "android_client_info": {
+          "package_name": "com.example.optimijac"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "827456482415-hi1rbk0q2eulja63ggtffeemgnul13m4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDlaLNftby2f3oySIPTJo7OG5UoJCzpHvw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "827456482415-hi1rbk0q2eulja63ggtffeemgnul13m4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
