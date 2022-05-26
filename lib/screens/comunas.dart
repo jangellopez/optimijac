@@ -1,5 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:optimijac/models/comuna_model.dart';
 
 class Comunas extends StatefulWidget {
   Comunas({Key? key}) : super(key: key);
@@ -9,22 +9,33 @@ class Comunas extends StatefulWidget {
 }
 
 class _ComunasState extends State<Comunas> {
-  List _listaComunas = comuna;
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 20),
-      child: Center(
-        child: GridView.builder(
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2, crossAxisSpacing: 2.0, mainAxisSpacing: 4.0),
-            itemCount: _listaComunas.length,
-            itemBuilder: (context, index) {
-              return _buildCard(_listaComunas[index].nombre,
-                  _listaComunas[index].numeroBarrios, index + 1);
-            }),
-      ),
-    );
+        padding: EdgeInsets.only(top: 20),
+        child: Center(
+          child: StreamBuilder(
+            stream:
+                FirebaseFirestore.instance.collection('comunas').snapshots(),
+            builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              return GridView.builder(
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 2.0,
+                      mainAxisSpacing: 4.0),
+                  itemCount: snapshot.data!.docs.length,
+                  itemBuilder: (context, index) {
+                    return _buildCard(
+                        snapshot.data!.docs[index]['nombre'], snapshot.data!.docs[index]['numeroBarrios'], index + 1);
+                  });
+            },
+          ),
+        ));
   }
 
   Widget _buildCard(var nombre, var numeroBarrios, int cardIndex) {
@@ -54,8 +65,8 @@ class _ComunasState extends State<Comunas> {
               ),
             ),
             SizedBox(height: 5.0),
-            Text('Barrios: ' +
-              numeroBarrios,
+            Text(
+              'Barrios: ' + numeroBarrios,
               style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 12.0,
