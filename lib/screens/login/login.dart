@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:optimijac/screens/login/register.dart';
 import 'package:optimijac/screens/menu.dart';
 import 'package:optimijac/shared/widget_Share.dart';
@@ -144,12 +143,15 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12)
+                          ),
                           primary: Color(0xff04b554),
-                          padding: EdgeInsets.all(20),
+                          padding: EdgeInsets.all(20)
                         ),
                         onPressed: () {
                           //Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
-                          SingIn(_usuarioTextoController.text,
+                          singIn(_usuarioTextoController.text,
                               _passwordTextoController.text);
                         },
                         child: Container(
@@ -206,7 +208,7 @@ class _LoginState extends State<Login> {
   }
 
 //Login Funcion
-  void SingIn(String email, String password) async {
+  void singIn(String email, String password) async {
     if (_formKey.currentState!.validate()) {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)

@@ -109,23 +109,30 @@ class _RegisterState extends State<Register> {
           ),
           SizedBox(height: 20),
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25.0),
-            child: Container(
-              padding: EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                  color: Color(0xff04b554),
-                  borderRadius: BorderRadius.circular(12)),
-              child: Center(
-                child: Text(
-                  'Registrar',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
+              padding: const EdgeInsets.symmetric(horizontal: 25.0),
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12)
+                  ),
+                  primary: Color(0xff04b554),
+                  padding: EdgeInsets.all(20),
                 ),
-              ),
-            ),
-          ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Container(
+                  child: Center(
+                    child: Text(
+                      'Registrar',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18),
+                    ),
+                  ),
+                ),
+              )),
           SizedBox(height: 25),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

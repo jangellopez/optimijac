@@ -33,11 +33,12 @@ class _ComunasState extends State<Comunas> {
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         elevation: 4.0,
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(height: 12.0),
             Container(
-              height: 60.0,
-              width: 60.0,
+              height: 80.0,
+              width: 80.0,
               child: FittedBox(
                 child: Icon(
                   Icons.business_rounded,
