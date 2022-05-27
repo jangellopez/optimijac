@@ -1,8 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/login/register.dart';
-import 'package:optimijac/screens/menu.dart';
+import 'package:optimijac/screens/login/register_screens.dart';
+import 'package:optimijac/screens/home/menu_sreens.dart';
 import 'package:optimijac/shared/widget_Share.dart';
 
 class Login extends StatefulWidget {

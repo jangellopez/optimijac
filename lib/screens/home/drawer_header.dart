@@ -29,7 +29,7 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
             ),
           ),
           Text(
-            "Jose Lopez",
+            "nombre usuario",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),
           Text(

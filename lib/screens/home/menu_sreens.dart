@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:optimijac/screens/barrios.dart';
-import 'package:optimijac/screens/comunas.dart';
-import 'package:optimijac/screens/habitantes.dart';
+import 'package:optimijac/screens/barrios/barrios_screens.dart';
+import 'package:optimijac/screens/comunas/comunas_screens.dart';
+import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
 import 'drawer_header.dart';
 
 class Menu extends StatefulWidget {
