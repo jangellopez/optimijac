@@ -34,6 +34,7 @@ dependencies:
   cloud_firestore:
   fluttertoast: ^8.0.9
   get:
+  firebase_database: 
 
 dev_dependencies:
   flutter_test:

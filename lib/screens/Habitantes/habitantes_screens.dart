@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_database/firebase_database.dart';
+
+import 'habitante_Modificar.dart';
 
 class Habitantes extends StatefulWidget {
   Habitantes({Key? key}) : super(key: key);
@@ -7,53 +11,44 @@ class Habitantes extends StatefulWidget {
   State<Habitantes> createState() => _HabitantesState();
 }
 
+// ignore: deprecated_member_use
+final habitantesReferencia =
+    FirebaseDatabase.instance.reference().child('Habitantes');
+
 class _HabitantesState extends State<Habitantes> {
-  
+  //lista de habitanes
+  List<Habitantes> habitantes = [];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Column(
-          children: <Widget>[
-            Text(
-              'Habitantes',
-              style: TextStyle(
-                  color: Colors.black,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 48),
-            ),
-            SizedBox(height: 20),
-            Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Color(0xff04b554),
-                    padding: EdgeInsets.all(20),
-                  ),
-                  onPressed: () {
-                    //Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
-                    //logOut();
-                  },
-                  child: Container(
-                    decoration:
-                        BoxDecoration(borderRadius: BorderRadius.circular(12)),
-                    child: Center(
-                      child: Text(
-                        'LogOut',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 18),
-                      ),
-                    ),
-                  ),
-                )),
-          ],
-        ),
-      ),
-    );
+    return new Scaffold(
+        body: new Container(
+            child: new Center(
+                child: StreamBuilder(
+                    stream: FirebaseFirestore.instance
+                        .collection('Habitantes')
+                        .snapshots(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      return ListView.builder(
+                          itemCount: snapshot.data!.docs.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return ListTile(
+                              onTap: () {
+                               
+                              },
+                              title: Text(snapshot.data!.docs[index]['email']),
+                              leading: CircleAvatar(
+                                child: Text(snapshot.data!.docs[index]['email']
+                                    .substring(0, 1)),
+                              ),
+                            );
+                          });
+                    }))));
   }
-
-
 }
