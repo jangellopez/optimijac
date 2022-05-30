@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:optimijac/screens/perfil/editar_perfil.dart';
 import 'package:optimijac/shared/widget_Share.dart';
 
 import '../../models/habitantes_model.dart';
@@ -140,7 +141,8 @@ class _RegisterState extends State<Register> {
                       ),
                     ),
                   ),
-                   //Texto confirmar
+                  SizedBox(height: 10),
+                  //Texto confirmar
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 25.0),
                     child: Container(
@@ -160,8 +162,8 @@ class _RegisterState extends State<Register> {
                             RegExp regExp = new RegExp(r'^.{6,}$');
                             if (value!.isEmpty) {
                               return ("Por Favor, Ingrese su contraseña.");
-                            }else if(value !=_passwordTextoController.text){
-                                return ("Las contraseñas tienen que ser iguales.");
+                            } else if (value != _passwordTextoController.text) {
+                              return ("Las contraseñas tienen que ser iguales.");
                             }
                             //Expression regulares para el email
                             if (!regExp.hasMatch(value)) {
@@ -204,9 +206,12 @@ class _RegisterState extends State<Register> {
                             primary: Color(0xff04b554),
                             padding: EdgeInsets.all(20)),
                         onPressed: () {
-                          //Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
-                          registrar(_usuarioTextoController.text,
-                              _passwordTextoController.text,_confirmarPassTextoController.text);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => EditarPerfil()));
+                          /*registrar(_usuarioTextoController.text,
+                              _passwordTextoController.text,_confirmarPassTextoController.text);*/
                         },
                         child: Container(
                           decoration: BoxDecoration(
@@ -257,20 +262,20 @@ class _RegisterState extends State<Register> {
   //registrar Funcion
   void registrar(String email, String password, String confirmPassword) async {
     if (_formKey.currentState!.validate()) {
-      await _auth.createUserWithEmailAndPassword(
-        email: email, 
-        password: password)
+      await _auth
+          .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {
                 Fluttertoast.showToast(msg: "Usuario Creado"),
                 Navigator.of(context).pushReplacement(
-                MaterialPageRoute(builder: (context) => Login())),
+                    MaterialPageRoute(builder: (context) => Login())),
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
 
       //crear en colleccion
-      final docHabitante = FirebaseFirestore.instance.collection("Habitantes").doc();
+      final docHabitante =
+          FirebaseFirestore.instance.collection("Habitantes").doc();
 
       //mapeo
       final habitante = Habitante(
@@ -286,9 +291,9 @@ class _RegisterState extends State<Register> {
 
       //crear el documento y escribir en Firebae
       await docHabitante.set(json);
-      
+
       Fluttertoast.showToast(msg: "Barrio Creado");
       Navigator.pop(context);
-    } 
+    }
   }
 }

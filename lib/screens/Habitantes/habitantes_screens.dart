@@ -1,8 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:firebase_database/firebase_database.dart';
-
-import 'habitante_Modificar.dart';
 
 class Habitantes extends StatefulWidget {
   Habitantes({Key? key}) : super(key: key);
@@ -10,10 +7,6 @@ class Habitantes extends StatefulWidget {
   @override
   State<Habitantes> createState() => _HabitantesState();
 }
-
-// ignore: deprecated_member_use
-final habitantesReferencia =
-    FirebaseDatabase.instance.reference().child('Habitantes');
 
 class _HabitantesState extends State<Habitantes> {
   //lista de habitanes

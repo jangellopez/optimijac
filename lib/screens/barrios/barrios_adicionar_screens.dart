@@ -19,8 +19,6 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
   late TextEditingController nombreController;
   late TextEditingController numeroHabitanteController;
   late TextEditingController comunaControlller;
-  //VisiblePassword
-  bool _isObscure = true;
   // Firebase
   // final _auth = FirebaseAuth.instance;
   //Key formulario
@@ -30,7 +28,6 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
     nombreController = TextEditingController();
     numeroHabitanteController = TextEditingController();
     comunaControlller = TextEditingController();
-    // TODO: implement initState
     super.initState();
   }
 
