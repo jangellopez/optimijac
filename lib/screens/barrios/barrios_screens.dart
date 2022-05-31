@@ -20,10 +20,12 @@ class _BarriosState extends State<Barrios> {
 
     return Scaffold(
       body: Container(
+
           //Texto
           padding: EdgeInsets.only(top: 20),
           child: Center(
             //Texto
+
             child: StreamBuilder(
               stream:
                   FirebaseFirestore.instance.collection('Barrios').snapshots(),
@@ -42,15 +44,12 @@ class _BarriosState extends State<Barrios> {
                     itemBuilder: (context, index) {
                       ds = snapshot.data!.docs[index];
                       docId = ds.id;
-                      return GestureDetector(
-                        onLongPress: () {
-                          eliminarBarrio(snapshot.data!.docs[index]['id']);
-                        },
-                        child: _buildCard(
-                            snapshot.data!.docs[index]['nombre'],
-                            snapshot.data!.docs[index]['numeroHabitantes'],
-                            index + 1),
-                      );
+
+                      return _buildCard(
+                          snapshot.data!.docs[index]['id'],
+                          snapshot.data!.docs[index]['nombre'],
+                          snapshot.data!.docs[index]['numeroHabitantes'],
+                          index + 1);
                     });
               },
             ),
@@ -77,13 +76,15 @@ class _BarriosState extends State<Barrios> {
     );
   }
 
-  Widget _buildCard(var nombre, var numeroHabitantes, int cardIndex) {
+  Widget _buildCard(var id, var nombre, var numeroBarrios, int cardIndex) {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         elevation: 4.0,
-        child: InkWell(
-          
+        child: new InkWell(
+          onLongPress: () {
+            eliminarBarrio(id);
+          },
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -107,7 +108,7 @@ class _BarriosState extends State<Barrios> {
               ),
               SizedBox(height: 5.0),
               Text(
-                'Numero Habitantes: ' + numeroHabitantes,
+                'Barrios: ' + numeroBarrios,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12.0,
