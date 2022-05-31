@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
 import 'package:optimijac/screens/comunas/comunas_screens.dart';
 import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
+import '../login/login_screens.dart';
 import 'drawer_header.dart';
 
 class Menu extends StatefulWidget {
@@ -12,6 +14,7 @@ class Menu extends StatefulWidget {
 }
 
 class _MenuState extends State<Menu> {
+  final _auth = FirebaseAuth.instance;
   var currentPage = DrawerSections.barrios;
   @override
   Widget build(BuildContext context) {
@@ -31,6 +34,16 @@ class _MenuState extends State<Menu> {
           'Optimijac',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          Padding(
+            padding: EdgeInsets.only(right: 10.0),
+            child: IconButton(
+                onPressed: () {
+                  _signOut();
+                },
+                icon: Icon(Icons.logout_rounded)),
+          )
+        ],
       ),
       body: container,
       drawer: Drawer(
@@ -107,6 +120,11 @@ class _MenuState extends State<Menu> {
         ),
       ),
     );
+  }
+
+  Future _signOut() async {
+    await _auth.signOut().then((value) => Navigator.of(context)
+        .pushReplacement(MaterialPageRoute(builder: (context) => Login())));
   }
 }
 
