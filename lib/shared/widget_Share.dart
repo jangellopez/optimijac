@@ -44,6 +44,7 @@ Future<dynamic> alertaWidget(BuildContext context, String mensaje) {
           ));
 }
 
+//Textos principales
 Text textowigetShared(String texto) {
   return Text(
     texto,

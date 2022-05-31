@@ -412,6 +412,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         idController.text = widget.id;
                         tipoDocumentoController.text = valorTipoId;
                         generoController.text = valorGenero;
+                        print(fechaNacimientoController.text);
+                        print(edadController.text);
                         modificar(emailController.text, passwordController.text,
                             idController.text);
                       },
