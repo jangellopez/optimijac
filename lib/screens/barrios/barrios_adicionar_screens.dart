@@ -13,6 +13,15 @@ class AdicionarBarrios extends StatefulWidget {
 }
 
 class _AdicionarBarrios extends State<AdicionarBarrios> {
+  String valorComuna = 'Comuna 1';
+  var itemsComuna = [
+    'Comuna 1',
+    'Comuna 2',
+    'Comuna 3',
+    'Comuna 4',
+    'Comuna 5',
+    'Comuna 6'
+  ];
   //objeto barrio
   var aux = false;
   //Controler
@@ -93,24 +102,25 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0),
-                      child: TextFormField(
-                        cursorColor: Color(0xff04b554),
+                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
+                      child: DropdownButtonFormField<String>(
+                        hint: Text('Seleccionar'),
                         decoration: InputDecoration(
                             border: InputBorder.none,
-                            fillColor: Color(0xff04b554),
-                            hintText: 'Comuna'),
-                        controller: comunaControlller,
-                        keyboardType: TextInputType.text,
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return ("Por Favor, Ingrese una Comuna.");
-                          }
-                          //Expression regulares para el email
-                          if (!RegExp("^[a-zA-Z0-9+_.-]").hasMatch(value)) {
-                            return ("Por Favor, Ingrese una Comuna valido.");
-                          }
-                          return null;
+                            labelText: 'Comuna',
+                            labelStyle: TextStyle(color: Color(0xff04b554))),
+                        borderRadius: BorderRadius.circular(12),
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                        items: itemsComuna.map((String items) {
+                          return DropdownMenuItem<String>(
+                            value: items,
+                            child: Text(items),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            valorComuna = newValue!;
+                          });
                         },
                       ),
                     ),
@@ -128,6 +138,7 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
                         padding: EdgeInsets.all(20),
                       ),
                       onPressed: () {
+                        comunaControlller.text = valorComuna;
                         crearBarrio(
                             nombreController.text, comunaControlller.text);
                       },
@@ -151,15 +162,38 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
     );
   }
 
-  Future crearBarrio(String name, String cominaID) async {
+  Future crearBarrio(String nombre, String comuna) async {
     if (_formKey.currentState!.validate()) {
       final docBarrio = FirebaseFirestore.instance.collection("Barrios").doc();
+
+      String comunaId = "";
+
+      switch (comuna) {
+        case "Comuna 1":
+          comunaId = "1";
+          break;
+        case "Comuna 2":
+          comunaId = "2";
+          break;
+        case "Comuna 3":
+          comunaId = "3";
+          break;
+        case "Comuna 4":
+          comunaId = "4";
+          break;
+        case "Comuna 5":
+          comunaId = "5";
+          break;
+        case "Comuna 6":
+          comunaId = "6";
+          break;
+      }
 
       //mapeo
       final barrio = Barrio(
         id: docBarrio.id,
-        nombre: name,
-        comunaId: cominaID,
+        nombre: nombre,
+        comunaId: comunaId,
         numeroHabitantes: "15",
       );
 

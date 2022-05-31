@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:optimijac/screens/barrios/barrios_filter.dart';
 
 class Comunas extends StatefulWidget {
   Comunas({Key? key}) : super(key: key);
@@ -30,8 +31,17 @@ class _ComunasState extends State<Comunas> {
                       mainAxisSpacing: 4.0),
                   itemCount: snapshot.data!.docs.length,
                   itemBuilder: (context, index) {
-                    return _buildCard(
-                        snapshot.data!.docs[index]['nombre'], snapshot.data!.docs[index]['numeroBarrios'], index + 1);
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => BarriosFilter(
+                                snapshot.data!.docs[index]['comunaId'])));
+                      },
+                      child: _buildCard(
+                          snapshot.data!.docs[index]['nombre'],
+                          snapshot.data!.docs[index]['numeroBarrios'],
+                          index + 1),
+                    );
                   });
             },
           ),
