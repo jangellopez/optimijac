@@ -11,7 +11,8 @@ class Habitantes extends StatefulWidget {
 class _HabitantesState extends State<Habitantes> {
   //lista de habitanes
   List<Habitantes> habitantes = [];
-
+  //Variables
+  
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -35,9 +36,9 @@ class _HabitantesState extends State<Habitantes> {
                               onTap: () {
                                
                               },
-                              title: Text(snapshot.data!.docs[index]['email']),
+                              title: Text(snapshot.data!.docs[index]['nombres']+" "+snapshot.data!.docs[index]['apellidos']),
                               leading: CircleAvatar(
-                                child: Text(snapshot.data!.docs[index]['email']
+                                child: Text(snapshot.data!.docs[index]['nombres']
                                     .substring(0, 1)),
                               ),
                             );
