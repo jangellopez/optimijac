@@ -44,3 +44,10 @@ Future<dynamic> alertaWidget(BuildContext context, String mensaje) {
           ));
 }
 
+Text textowigetShared(String texto) {
+  return Text(
+    texto,
+    style: TextStyle(
+        color: Colors.black, fontWeight: FontWeight.bold, fontSize: 32),
+  );
+}
