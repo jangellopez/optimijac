@@ -45,11 +45,15 @@ class _BarriosState extends State<Barrios> {
                       ds = snapshot.data!.docs[index];
                       docId = ds.id;
 
-                      return _buildCard(
-                          snapshot.data!.docs[index]['id'],
-                          snapshot.data!.docs[index]['nombre'],
-                          snapshot.data!.docs[index]['numeroHabitantes'],
-                          index + 1);
+                      return GestureDetector(
+                        onLongPress: () {
+                          eliminarBarrio(snapshot.data!.docs[index]['id']);
+                        },
+                        child: _buildCard(
+                            snapshot.data!.docs[index]['nombre'],
+                            snapshot.data!.docs[index]['numeroHabitantes'],
+                            index + 1),
+                      );
                     });
               },
             ),
@@ -76,16 +80,12 @@ class _BarriosState extends State<Barrios> {
     );
   }
 
-  Widget _buildCard(var id, var nombre, var numeroBarrios, int cardIndex) {
+  Widget _buildCard(var nombre, var numeroBarrios, int cardIndex) {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
         elevation: 4.0,
-        child: new InkWell(
-          onLongPress: () {
-            eliminarBarrio(id);
-          },
-          child: Column(
+        child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
@@ -116,7 +116,6 @@ class _BarriosState extends State<Barrios> {
               ),
             ],
           ),
-        ),
         margin: cardIndex.isEven
             ? EdgeInsets.fromLTRB(10.0, 0.0, 25.0, 10.0)
             : EdgeInsets.fromLTRB(25.0, 0.0, 5.0, 10.0));
