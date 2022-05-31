@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class Habitantes extends StatefulWidget {
   Habitantes({Key? key}) : super(key: key);
@@ -32,16 +33,62 @@ class _HabitantesState extends State<Habitantes> {
                           itemCount: snapshot.data!.docs.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ListTile(
-                              onTap: () {
-                               
+                              onLongPress: () {
+                                eliminarHabitante(
+                                    snapshot.data!.docs[index]['id']);
                               },
-                              title: Text(snapshot.data!.docs[index]['email']),
+                              title: Text(snapshot.data!.docs[index]
+                                      ['nombres'] +
+                                  " " +
+                                  snapshot.data!.docs[index]['apellidos']),
                               leading: CircleAvatar(
-                                child: Text(snapshot.data!.docs[index]['email']
+                                child: Text(snapshot.data!.docs[index]['nombres']
                                     .substring(0, 1)),
                               ),
                             );
                           });
                     }))));
+  }
+
+  void eliminarHabitante(var id) {
+    showDialog(
+        context: context,
+        builder: (_) => AlertDialog(
+              title: Text('Eliminar Habitante'),
+              content: Column(
+                children: [
+                  Text('Estas Seguro que deseas eliminar el Habitante?'),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    setState(() {
+                      final docHabitantes = FirebaseFirestore.instance
+                          .collection("Habitantes")
+                          .doc(id);
+
+                      //mapeo
+                      docHabitantes.delete();
+                      Fluttertoast.showToast(msg: "Habitante Eliminado");
+                      Navigator.pop(context);
+                    });
+                  },
+                  child: Text(
+                    'Eliminar',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'Cancelar',
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                )
+              ],
+            ));
   }
 }

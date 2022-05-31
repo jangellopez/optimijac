@@ -76,7 +76,7 @@ class _BarriosState extends State<Barrios> {
     );
   }
 
-  Widget _buildCard(var id, var nombre, var numeroBarrios, int cardIndex) {
+  Widget _buildCard(var id, var nombre, var numeroHabitantes, int cardIndex) {
     return Card(
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
@@ -108,7 +108,7 @@ class _BarriosState extends State<Barrios> {
               ),
               SizedBox(height: 5.0),
               Text(
-                'Barrios: ' + numeroBarrios,
+                'Habitantes: ' + numeroHabitantes,
                 style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 12.0,
