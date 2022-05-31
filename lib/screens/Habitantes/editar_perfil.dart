@@ -247,7 +247,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                     ),
                     child: Padding(
                       padding: const EdgeInsets.only(left: 20.0),
-                      child: _InputDateBirth(context),
+                      child: _inputDateBirth(context),
                     ),
                   ),
                 ),
@@ -412,8 +412,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
                         idController.text = widget.id;
                         tipoDocumentoController.text = valorTipoId;
                         generoController.text = valorGenero;
-                        print(fechaNacimientoController.text);
-                        print(edadController.text);
+                        //print(fechaNacimientoController.text);
+                        //print(edadController.text);
                         modificar(emailController.text, passwordController.text,
                             idController.text);
                       },
@@ -441,7 +441,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
 
   //metodos edad
   late var anoActual, mesActual, anoNaci, mesNaci;
-  Widget _InputDateBirth(BuildContext _context) {
+  Widget _inputDateBirth(BuildContext _context) {
     return TextField(
       enableInteractiveSelection: false,
       controller: fechaNacimientoController,
@@ -453,14 +453,14 @@ class _EditarPerfilState extends State<EditarPerfil> {
           icon: Icon(Icons.calendar_today)),
       onTap: () {
         FocusScope.of(_context).requestFocus(new FocusNode());
-        _SelectedDate(context);
+        _selectedDate(context);
       },
     );
   }
 
   //fecha de naacimiento
-  _SelectedDate(BuildContext _context) async {
-    DateTime FechaActual;
+  _selectedDate(BuildContext _context) async {
+    DateTime fechaActual;
     int edadd;
     int valor = 1;
     DateTime? picke = await showDatePicker(
@@ -469,15 +469,15 @@ class _EditarPerfilState extends State<EditarPerfil> {
         firstDate: DateTime(1700),
         lastDate: DateTime(2032));
 
-    FechaActual = DateTime.now();
+    fechaActual = DateTime.now();
     if (picke != null) {
       setState(() {
         fechaNacimientoController.text = picke.toString().substring(0, 10);
-        if (FechaActual.month < picke.month) {
-          edadd = int.parse((FechaActual.year - picke.year).toString());
+        if (fechaActual.month < picke.month) {
+          edadd = int.parse((fechaActual.year - picke.year).toString());
           edadController.text = (edadd - valor).toString();
-        } else if (FechaActual.month > picke.month) {
-          edadController.text = (FechaActual.year - picke.year).toString();
+        } else if (fechaActual.month > picke.month) {
+          edadController.text = (fechaActual.year - picke.year).toString();
         }
       });
     }
@@ -505,7 +505,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
         email: email,
         password: password,
       );
-      print(habitante.toJson().toString());
+      //print(habitante.toJson().toString());
       final json = habitante.toJson();
 
       //crear el documento y escribir en Firebae
@@ -528,7 +528,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
         .then((value) => {
               Fluttertoast.showToast(msg: "Bienvenido"),
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Menu())),
+                  MaterialPageRoute(builder: (context) => Menu(email))),
             })
         .catchError((e) {
       Fluttertoast.showToast(msg: e!.message);

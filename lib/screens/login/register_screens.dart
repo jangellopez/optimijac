@@ -6,7 +6,6 @@ import 'package:optimijac/screens/Habitantes/editar_perfil.dart';
 import 'package:optimijac/shared/widget_Share.dart';
 
 import '../../models/habitantes_model.dart';
-import 'login_screens.dart';
 
 class Register extends StatefulWidget {
   Register({Key? key}) : super(key: key);

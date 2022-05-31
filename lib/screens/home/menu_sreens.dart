@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
 import 'package:optimijac/screens/comunas/comunas_screens.dart';
 import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
@@ -7,7 +8,8 @@ import '../login/login_screens.dart';
 import 'drawer_header.dart';
 
 class Menu extends StatefulWidget {
-  Menu({Key? key}) : super(key: key);
+  final String email;
+  Menu(this.email, {Key? key}) : super(key: key);
 
   @override
   State<Menu> createState() => _MenuState();
@@ -50,7 +52,7 @@ class _MenuState extends State<Menu> {
         child: SingleChildScrollView(
           child: Container(
             child: Column(
-              children: [HeaderDrawer(), drawerList()],
+              children: [HeaderDrawer(widget.email), drawerList()],
             ),
           ),
         ),
@@ -123,6 +125,7 @@ class _MenuState extends State<Menu> {
   }
 
   Future _signOut() async {
+    Fluttertoast.showToast(msg: "Logout Successfull");
     await _auth.signOut().then((value) => Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => Login())));
   }

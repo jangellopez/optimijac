@@ -215,7 +215,7 @@ class _LoginState extends State<Login> {
           .then((value) => {
                 Fluttertoast.showToast(msg: "Login Successfull"),
                 Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Menu())),
+                    MaterialPageRoute(builder: (context) => Menu(email))),
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
