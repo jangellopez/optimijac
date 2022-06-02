@@ -4,6 +4,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
 import 'package:optimijac/screens/comunas/comunas_screens.dart';
 import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
+import '../JAC/JuntaAccionComunal_Screens.dart';
+import '../barrios/addMiembro_Barrio.dart';
+import '../barrios/addMiembro_JAC.dart';
+import '../comunas/addPresidente_Comuna.dart';
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
 
@@ -27,7 +31,16 @@ class _MenuState extends State<Menu> {
       container = Habitantes();
     } else if (currentPage == DrawerSections.comunas) {
       container = Comunas();
+    } else if (currentPage == DrawerSections.jac) {
+      container = JAC();
+    } else if (currentPage == DrawerSections.jac) {
+      container = AddMiembroBarrio();
+    } else if (currentPage == DrawerSections.jac) {
+      container = AddMiembroJAC();
+    }else if (currentPage == DrawerSections.jac) {
+      container = AddPresidenteComuna();
     }
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff04b554),
@@ -73,7 +86,15 @@ class _MenuState extends State<Menu> {
           menuItem(2, "Habitantes", Icons.person_search,
               currentPage == DrawerSections.habitantes ? true : false),
           menuItem(3, "Comunas", Icons.business_rounded,
-              currentPage == DrawerSections.comunas ? true : false)
+              currentPage == DrawerSections.comunas ? true : false),
+          menuItem(4, "JAC", Icons.business_rounded,
+              currentPage == DrawerSections.jac ? true : false),
+          menuItem(5, "Habitantes Solicitud", Icons.business_rounded,
+              currentPage == DrawerSections.addMiembroBarrio ? true : false),
+          menuItem(6, "Solicitud JAC", Icons.business_rounded,
+              currentPage == DrawerSections.addMiembroJAC ? true : false),
+          menuItem(7, "Solicitud Asocomuna", Icons.business_rounded,
+              currentPage == DrawerSections.addPresiAsocomuna ? true : false),
         ],
       ),
     );
@@ -131,4 +152,12 @@ class _MenuState extends State<Menu> {
   }
 }
 
-enum DrawerSections { barrios, habitantes, comunas }
+enum DrawerSections {
+  barrios,
+  habitantes,
+  comunas,
+  jac,
+  addMiembroBarrio,
+  addMiembroJAC,
+  addPresiAsocomuna
+}

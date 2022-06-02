@@ -521,6 +521,9 @@ class _EditarPerfilState extends State<EditarPerfil> {
         email: email,
         password: password,
         imageUrl: imageUrl,
+        rRol: 'HABITANTE',
+        comunaId: '',
+        barrioId: '',
       );
       //print(habitante.toJson().toString());
       final json = habitante.toJson();

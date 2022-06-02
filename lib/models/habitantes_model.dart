@@ -12,6 +12,9 @@ class Habitante {
   final String email;
   final String password;
   final String imageUrl;
+  final String rRol;
+  final String comunaId;
+  final String barrioId;
 
   Habitante(
       {this.id = '',
@@ -26,7 +29,10 @@ class Habitante {
       required this.direccion,
       required this.email,
       required this.password,
-      required this.imageUrl});
+      required this.imageUrl,
+      required this.rRol,
+      required this.comunaId,
+      required this.barrioId});
 
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -41,6 +47,9 @@ class Habitante {
         'direccion': direccion,
         'email': email,
         'password': password,
-        'imageUrl': imageUrl
+        'imageUrl': imageUrl,
+        'rRol': rRol,
+        'comunaId': comunaId,
+        'barrioId': barrioId
       };
 }
