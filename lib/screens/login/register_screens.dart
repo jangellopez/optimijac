@@ -29,11 +29,12 @@ class _RegisterState extends State<Register> {
   final _formKey = GlobalKey<FormState>();
   var imageDefaultUrl = "";
 
-    @override
+  @override
   void initState() {
     loadImage();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -277,27 +278,31 @@ class _RegisterState extends State<Register> {
           .then((value) => {
                 Fluttertoast.showToast(msg: "Usuario Creado"),
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                    builder: (context) =>
-                        EditarPerfil(email, password, docHabitante.id, imageDefaultUrl)))
+                    builder: (context) => EditarPerfil(
+                        email, password, docHabitante.id, imageDefaultUrl)))
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
       //mapeo
       final habitante = Habitante(
-          id: docHabitante.id,
-          tipoIdetificacion: '',
-          idetificacion: '',
-          nombres: '',
-          apellidos: '',
-          fechaNacimiento: '',
-          edad: '',
-          genero: '',
-          telefono: '',
-          direccion: '',
-          email: email,
-          password: password,
-          imageUrl: imageDefaultUrl);
+        id: docHabitante.id,
+        tipoIdetificacion: '',
+        idetificacion: '',
+        nombres: '',
+        apellidos: '',
+        fechaNacimiento: '',
+        edad: '',
+        genero: '',
+        telefono: '',
+        direccion: '',
+        email: email,
+        password: password,
+        imageUrl: imageDefaultUrl,
+        rRol: 'HABITANTE',
+        comunaId: '',
+        barrioId: '',
+      );
 
       final json = habitante.toJson();
 
