@@ -488,13 +488,12 @@ class _EditarPerfilState extends State<EditarPerfil> {
         edad = fechaActual.year - picker.year;
         if (picker.month > fechaActual.month) {
           edad--;
-          edadController.text = edad.toString();
         } else if (fechaActual.month == picker.month) {
           if (picker.day > fechaActual.day) {
             edad--;
-            edadController.text = edad.toString();
           }
         }
+        edadController.text = edad.toString();
       });
     }
   }
