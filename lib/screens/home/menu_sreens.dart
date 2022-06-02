@@ -33,11 +33,11 @@ class _MenuState extends State<Menu> {
       container = Comunas();
     } else if (currentPage == DrawerSections.jac) {
       container = JAC();
-    } else if (currentPage == DrawerSections.jac) {
+    } else if (currentPage == DrawerSections.addMiembroBarrio) {
       container = AddMiembroBarrio();
-    } else if (currentPage == DrawerSections.jac) {
+    } else if (currentPage == DrawerSections.addMiembroJAC) {
       container = AddMiembroJAC();
-    }else if (currentPage == DrawerSections.jac) {
+    } else if (currentPage == DrawerSections.addPresiAsocomuna) {
       container = AddPresidenteComuna();
     }
 
@@ -113,6 +113,14 @@ class _MenuState extends State<Menu> {
               currentPage = DrawerSections.habitantes;
             } else if (id == 3) {
               currentPage = DrawerSections.comunas;
+            } else if (id == 4) {
+              currentPage = DrawerSections.jac;
+            } else if (id == 5) {
+              currentPage = DrawerSections.addMiembroBarrio;
+            } else if (id == 6) {
+              currentPage = DrawerSections.addMiembroJAC;
+            } else if (id == 7) {
+              currentPage = DrawerSections.addPresiAsocomuna;
             }
           });
         },
