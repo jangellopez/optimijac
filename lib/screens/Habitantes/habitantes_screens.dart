@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -10,6 +11,7 @@ class Habitantes extends StatefulWidget {
 }
 
 class _HabitantesState extends State<Habitantes> {
+  final _auth = FirebaseAuth.instance;
   //lista de habitanes
   List<Habitantes> habitantes = [];
 
@@ -35,14 +37,18 @@ class _HabitantesState extends State<Habitantes> {
                             return ListTile(
                               onLongPress: () {
                                 eliminarHabitante(
-                                    snapshot.data!.docs[index]['id']);
+                                    context,
+                                    snapshot.data!.docs[index]['id'],
+                                    snapshot.data!.docs[index]['nombres'],
+                                    snapshot.data!.docs[index]['email']);
                               },
                               title: Text(snapshot.data!.docs[index]
                                       ['nombres'] +
                                   " " +
                                   snapshot.data!.docs[index]['apellidos']),
                               leading: CircleAvatar(
-                                child: Text(snapshot.data!.docs[index]['nombres']
+                                child: Text(snapshot
+                                    .data!.docs[index]['nombres']
                                     .substring(0, 1)),
                               ),
                             );
@@ -50,16 +56,13 @@ class _HabitantesState extends State<Habitantes> {
                     }))));
   }
 
-  void eliminarHabitante(var id) {
+  void eliminarHabitante(context, var id, var nombre, var email) {
     showDialog(
         context: context,
         builder: (_) => AlertDialog(
               title: Text('Eliminar Habitante'),
-              content: Column(
-                children: [
-                  Text('Estas Seguro que deseas eliminar el Habitante?'),
-                ],
-              ),
+              content: Text(
+                  'Estas Seguro que deseas eliminar el Habitante $nombre?'),
               actions: [
                 TextButton(
                   onPressed: () {
@@ -67,10 +70,16 @@ class _HabitantesState extends State<Habitantes> {
                       final docHabitantes = FirebaseFirestore.instance
                           .collection("Habitantes")
                           .doc(id);
+                      if (email != _auth.currentUser!.email.toString()) {
+                        docHabitantes.delete();
+                        Fluttertoast.showToast(msg: "Habitante Eliminado");
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: "No delete auth current user");
+                      }
 
                       //mapeo
-                      docHabitantes.delete();
-                      Fluttertoast.showToast(msg: "Habitante Eliminado");
+
                       Navigator.pop(context);
                     });
                   },
