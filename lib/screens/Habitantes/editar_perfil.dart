@@ -466,7 +466,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
       ),
       onTap: () {
         FocusScope.of(_context).requestFocus(new FocusNode());
-        _selectedDate(context);
+        _selectedDate(_context);
       },
     );
   }
@@ -474,23 +474,26 @@ class _EditarPerfilState extends State<EditarPerfil> {
   //fecha de naacimiento
   _selectedDate(BuildContext _context) async {
     DateTime fechaActual;
-    int edadd;
-    int valor = 1;
-    DateTime? picke = await showDatePicker(
+    int edad;
+    DateTime? picker = await showDatePicker(
         context: _context,
         initialDate: DateTime.now(),
         firstDate: DateTime(1700),
-        lastDate: DateTime(2032));
+        lastDate: DateTime.now());
 
     fechaActual = DateTime.now();
-    if (picke != null) {
+    if (picker != null) {
       setState(() {
-        fechaNacimientoController.text = picke.toString().substring(0, 10);
-        if (fechaActual.month < picke.month) {
-          edadd = int.parse((fechaActual.year - picke.year).toString());
-          edadController.text = (edadd - valor).toString();
-        } else if (fechaActual.month > picke.month) {
-          edadController.text = (fechaActual.year - picke.year).toString();
+        fechaNacimientoController.text = picker.toString().substring(0, 10);
+        edad = fechaActual.year - picker.year;
+        if (picker.month > fechaActual.month) {
+          edad--;
+          edadController.text = edad.toString();
+        } else if (fechaActual.month == picker.month) {
+          if (picker.day > fechaActual.day) {
+            edad--;
+            edadController.text = edad.toString();
+          }
         }
       });
     }
