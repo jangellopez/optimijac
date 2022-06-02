@@ -1,16 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:optimijac/screens/home/menu_sreens.dart';
 import 'package:optimijac/shared/widget_Share.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:io';
 
 import '../../models/habitantes_model.dart';
 
 class EditarPerfil extends StatefulWidget {
   //variables obtenidas
-  final String email, password, id;
-  EditarPerfil(this.email, this.password, this.id, {Key? key})
+  final String email, password, id, imageUrl;
+  EditarPerfil(this.email, this.password, this.id, this.imageUrl, {Key? key})
       : super(key: key);
 
   @override
@@ -24,6 +28,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
   var itemsTipoId = ['Cedula', 'Tarjeta identidad', 'Pasaporte'];
   var itemsGenero = ['Masculino', 'Femenino'];
   var aux = false;
+  late String imageUrl;
+  //late Future<String> _future;
   //Controler
   late TextEditingController idController;
   late TextEditingController tipoDocumentoController;
@@ -43,6 +49,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
   final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
+    imageUrl = widget.imageUrl;
     idController = TextEditingController();
     tipoDocumentoController = TextEditingController();
     idetificacionController = TextEditingController();
@@ -76,8 +83,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
                 Center(
                   child: Stack(children: [
                     CircleAvatar(
-                      backgroundImage:
-                          NetworkImage('https://i.pravatar.cc/300'),
+                      backgroundImage: NetworkImage(imageUrl),
                       foregroundColor: Colors.transparent,
                       radius: 70,
                     ),
@@ -92,10 +98,18 @@ class _EditarPerfilState extends State<EditarPerfil> {
                               child: Container(
                                 padding: EdgeInsets.all(8),
                                 color: Color(0xff04b554),
-                                child: Icon(
-                                  Icons.camera_alt_rounded,
-                                  size: 20,
-                                  color: Colors.white,
+                                child: SizedBox(
+                                  width: 20,
+                                  height: 20,
+                                  child: IconButton(
+                                    padding: EdgeInsets.zero,
+                                    alignment: Alignment.center,
+                                    icon: Icon(Icons.camera_alt_rounded,
+                                        size: 20, color: Colors.white),
+                                    onPressed: () {
+                                      uploadImage();
+                                    },
+                                  ),
                                 ),
                               ),
                             ),
@@ -446,11 +460,10 @@ class _EditarPerfilState extends State<EditarPerfil> {
       enableInteractiveSelection: false,
       controller: fechaNacimientoController,
       decoration: InputDecoration(
-          hintText: 'Seleccione fecha de nacimiento',
-          labelText: 'Fecha de Nacimiento',
-          suffixIcon: Icon(Icons.perm_contact_calendar),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
-          icon: Icon(Icons.calendar_today)),
+        labelText: 'Fecha de Nacimiento',
+        suffixIcon: Icon(Icons.perm_contact_calendar),
+        border: InputBorder.none,
+      ),
       onTap: () {
         FocusScope.of(_context).requestFocus(new FocusNode());
         _selectedDate(context);
@@ -504,6 +517,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
         direccion: direccionController.text,
         email: email,
         password: password,
+        imageUrl: imageUrl,
       );
       //print(habitante.toJson().toString());
       final json = habitante.toJson();
@@ -533,5 +547,37 @@ class _EditarPerfilState extends State<EditarPerfil> {
         .catchError((e) {
       Fluttertoast.showToast(msg: e!.message);
     });
+  }
+
+  uploadImage() async {
+    final _storage = FirebaseStorage.instance;
+    final _picker = ImagePicker();
+
+    await Permission.photos.request();
+
+    var permissionStatus = await Permission.photos.status;
+
+    if (permissionStatus.isGranted) {
+      XFile? image = (await _picker.pickImage(source: ImageSource.gallery));
+      File? file = File(image!.path);
+
+      if (image != null) {
+        var snapshot = await _storage
+            .ref()
+            .child('profile_${_auth.currentUser!.uid}')
+            .putFile(file)
+            .whenComplete(() => null);
+
+        var downloadUrl = await snapshot.ref.getDownloadURL();
+        print(downloadUrl);
+        setState(() {
+          imageUrl = downloadUrl;
+        });
+      } else {
+        print('No path received');
+      }
+    } else {
+      print('Grant permissions and try again');
+    }
   }
 }

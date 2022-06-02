@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/screens/Habitantes/editar_perfil.dart';
@@ -26,6 +27,13 @@ class _RegisterState extends State<Register> {
   final _auth = FirebaseAuth.instance;
   //Key formulario
   final _formKey = GlobalKey<FormState>();
+  var imageDefaultUrl = "";
+
+    @override
+  void initState() {
+    loadImage();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -260,46 +268,54 @@ class _RegisterState extends State<Register> {
   //registrar Funcion
   void registrar(String email, String password, String confirmPassword) async {
     if (_formKey.currentState!.validate()) {
-
-       //crear en colleccion
+      //crear en colleccion
       final docHabitante =
           FirebaseFirestore.instance.collection("Habitantes").doc();
-
 
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {
                 Fluttertoast.showToast(msg: "Usuario Creado"),
-                 Navigator.of(context).pushReplacement(MaterialPageRoute(
-                  builder: (context) => EditarPerfil(email, password, docHabitante.id)))
+                Navigator.of(context).pushReplacement(MaterialPageRoute(
+                    builder: (context) =>
+                        EditarPerfil(email, password, docHabitante.id, imageDefaultUrl)))
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
-      
       //mapeo
       final habitante = Habitante(
-        id: docHabitante.id,
-        tipoIdetificacion: '',
-        idetificacion: '',
-        nombres: '',
-        apellidos: '',
-        fechaNacimiento: '',
-        edad: '',
-        genero: '',
-        telefono: '',
-        direccion: '',
-        email: email,
-        password: password,
-      );
+          id: docHabitante.id,
+          tipoIdetificacion: '',
+          idetificacion: '',
+          nombres: '',
+          apellidos: '',
+          fechaNacimiento: '',
+          edad: '',
+          genero: '',
+          telefono: '',
+          direccion: '',
+          email: email,
+          password: password,
+          imageUrl: imageDefaultUrl);
 
       final json = habitante.toJson();
 
       //crear el documento y escribir en Firebae
       await docHabitante.set(json);
-     
+
       Fluttertoast.showToast(msg: "Complete su Perfil");
-      Navigator.pop(context);
+      //Navigator.pop(context);
     }
+  }
+
+  Future<void> loadImage() async {
+    var imageUrl = await FirebaseStorage.instance
+        .ref()
+        .child('avatar_default.jpg')
+        .getDownloadURL();
+    setState(() {
+      imageDefaultUrl = imageUrl;
+    });
   }
 }

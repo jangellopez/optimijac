@@ -11,6 +11,7 @@ Future<void> main() async {
       appId: "1:827456482415:android:db772536ed2cefb181b19a",
       messagingSenderId: "827456482415",
       projectId: "optimijac",
+      storageBucket: "optimijac.appspot.com"
     ),
   );
   runApp(MyApp());

@@ -43,6 +43,14 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xff04b554),
+        centerTitle: true,
+        title: Text(
+          'Optimijac',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )
+      ),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(

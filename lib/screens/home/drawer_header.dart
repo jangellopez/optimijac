@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class HeaderDrawer extends StatefulWidget {
   final String email;
@@ -21,16 +22,23 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            margin: EdgeInsets.only(bottom: 10),
-            height: 70,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              image: DecorationImage(
-                image: NetworkImage('https://i.pravatar.cc/300'),
-              ),
-            ),
-          ),
+          FutureBuilder(
+              future: loadImage(),
+              builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  return CircleAvatar(
+                    radius: 30,
+                    backgroundColor: Colors.transparent,
+                    backgroundImage: NetworkImage(snapshot.data.toString()),
+                  );
+                } else {
+                  return CircleAvatar(
+                    backgroundColor: Colors.transparent,
+                    radius: 30,
+                    child: CircularProgressIndicator(),
+                  );
+                }
+              }),
           FutureBuilder(
               future: getData(),
               builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
@@ -67,5 +75,13 @@ class _HeaderDrawerState extends State<HeaderDrawer> {
     );
 
     return nombres;
+  }
+
+  Future<String> loadImage() async {
+    final url = await FirebaseStorage.instance
+        .ref()
+        .child('avatar_default.jpg')
+        .getDownloadURL();
+    return url;
   }
 }

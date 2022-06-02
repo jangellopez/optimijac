@@ -11,6 +11,7 @@ class Habitante {
   final String direccion;
   final String email;
   final String password;
+  final String imageUrl;
 
   Habitante(
       {this.id = '',
@@ -24,11 +25,10 @@ class Habitante {
       required this.telefono,
       required this.direccion,
       required this.email,
-      required this.password});
-
+      required this.password,
+      required this.imageUrl});
 
   Map<String, dynamic> toJson() => {
-        
         'id': id,
         'tipoIdetificacion': tipoIdetificacion,
         'idetificacion': idetificacion,
@@ -40,6 +40,7 @@ class Habitante {
         'telefono': telefono,
         'direccion': direccion,
         'email': email,
-        'password': password
+        'password': password,
+        'imageUrl': imageUrl
       };
 }

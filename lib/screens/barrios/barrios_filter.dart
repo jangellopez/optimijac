@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'barrios_adicionar_screens.dart';
-
 class BarriosFilter extends StatefulWidget {
   final String comunaId;
   BarriosFilter(this.comunaId, {Key? key}) : super(key: key);
@@ -20,6 +18,14 @@ class _BarriosFilterState extends State<BarriosFilter> {
     DocumentSnapshot ds;
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Color(0xff04b554),
+        centerTitle: true,
+        title: Text(
+          'Optimijac',
+          style: TextStyle(fontWeight: FontWeight.bold),
+        )
+      ),
       body: Container(
 
           //Texto
