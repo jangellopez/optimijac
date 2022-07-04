@@ -313,7 +313,7 @@ class _RegisterState extends State<Register> {
       //Navigator.pop(context);
     }
   }
-
+  //colocar imagen predeterminada
   Future<void> loadImage() async {
     var imageUrl = await FirebaseStorage.instance
         .ref()

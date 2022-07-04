@@ -5,10 +5,10 @@ import 'package:optimijac/screens/PresidenteComunas/PresidentesComunas_screens.d
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
 import 'package:optimijac/screens/comunas/comunas_screens.dart';
 import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
+import 'package:optimijac/screens/pqrs/registrar_pqrs.dart';
 import '../JAC/JuntaAccionComunal_Screens.dart';
 import '../barrios/addMiembro_Barrio.dart';
 import '../barrios/addMiembro_JAC.dart';
-import '../comunas/addPresidente_Comuna.dart';
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
 
@@ -40,6 +40,8 @@ class _MenuState extends State<Menu> {
       container = AddMiembroJAC();
     } else if (currentPage == DrawerSections.addPresiAsocomuna) {
       container = PresidenteComuna();
+    } else if (currentPage == DrawerSections.registrarPqrs){
+      container = RegistrarPqrs();
     }
 
     return Scaffold(
@@ -96,6 +98,8 @@ class _MenuState extends State<Menu> {
               currentPage == DrawerSections.addMiembroJAC ? true : false),
           menuItem(7, "Presidente Comunas", Icons.business_rounded,
               currentPage == DrawerSections.addPresiAsocomuna ? true : false),
+          menuItem(8, "Registrar PQRS", Icons.message_rounded,
+              currentPage == DrawerSections.registrarPqrs ? true : false)
         ],
       ),
     );
@@ -122,6 +126,8 @@ class _MenuState extends State<Menu> {
               currentPage = DrawerSections.addMiembroJAC;
             } else if (id == 7) {
               currentPage = DrawerSections.addPresiAsocomuna;
+            } else if (id == 8) {
+              currentPage = DrawerSections.registrarPqrs;
             }
           });
         },
@@ -170,4 +176,5 @@ enum DrawerSections {
   addMiembroJAC,
   addPresiAsocomuna,
   
+  registrarPqrs
 }

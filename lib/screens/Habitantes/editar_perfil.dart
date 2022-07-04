@@ -553,7 +553,7 @@ class _EditarPerfilState extends State<EditarPerfil> {
       Fluttertoast.showToast(msg: e!.message);
     });
   }
-
+  //cargar la imagen abriendo la galeria del celular
   uploadImage() async {
     final _storage = FirebaseStorage.instance;
     final _picker = ImagePicker();
