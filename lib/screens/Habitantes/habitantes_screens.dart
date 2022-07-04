@@ -52,7 +52,8 @@ class _HabitantesState extends State<Habitantes> {
                                     .substring(0, 1)),
                               ),
                             );
-                          });
+                          }
+                          );
                     }))));
   }
 

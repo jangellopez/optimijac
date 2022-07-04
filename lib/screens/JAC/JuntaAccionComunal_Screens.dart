@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:optimijac/screens/barrios/barrios_filter.dart';
+import 'package:optimijac/screens/comunas/barrios_filter.dart';
 
 class JAC extends StatefulWidget {
   JAC({Key? key}) : super(key: key);

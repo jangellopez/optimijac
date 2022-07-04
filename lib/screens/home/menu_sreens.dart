@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:optimijac/screens/PresidenteComunas/PresidentesComunas_screens.dart';
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
 import 'package:optimijac/screens/comunas/comunas_screens.dart';
 import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
@@ -38,7 +39,7 @@ class _MenuState extends State<Menu> {
     } else if (currentPage == DrawerSections.addMiembroJAC) {
       container = AddMiembroJAC();
     } else if (currentPage == DrawerSections.addPresiAsocomuna) {
-      container = AddPresidenteComuna();
+      container = PresidenteComuna();
     }
 
     return Scaffold(
@@ -93,7 +94,7 @@ class _MenuState extends State<Menu> {
               currentPage == DrawerSections.addMiembroBarrio ? true : false),
           menuItem(6, "Solicitud JAC", Icons.business_rounded,
               currentPage == DrawerSections.addMiembroJAC ? true : false),
-          menuItem(7, "Solicitud Asocomuna", Icons.business_rounded,
+          menuItem(7, "Presidente Comunas", Icons.business_rounded,
               currentPage == DrawerSections.addPresiAsocomuna ? true : false),
         ],
       ),
@@ -167,5 +168,6 @@ enum DrawerSections {
   jac,
   addMiembroBarrio,
   addMiembroJAC,
-  addPresiAsocomuna
+  addPresiAsocomuna,
+  
 }
