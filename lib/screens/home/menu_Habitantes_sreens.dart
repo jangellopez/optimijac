@@ -1,8 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
 import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comunas_screens.dart';
+import 'package:optimijac/screens/Habitante%20si/GestionarComunas/consultaComunas.dart';
 
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
 import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
@@ -25,13 +27,23 @@ class Menu_Habitante extends StatefulWidget {
 }
 
 class _Menu_HabitanteState extends State<Menu_Habitante> {
+   String auxx = '';
   final _auth = FirebaseAuth.instance;
   var currentPage = DrawerSections.consultarComunas;
+
+   @override
+  void initState() {
+     obtenerIdHabitante(widget.email);
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var container;
     if (currentPage == DrawerSections.consultarComunas) {
-      container = ConsultaComunas();
+      print('llego: ' + auxx);
+      container = consultaComunas(auxx);
     } else if (currentPage == DrawerSections.addPC_screens) {
       container = addPC();
     }
@@ -76,9 +88,9 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
       child: Column(
         // shows the list of menu drawer
         children: [
-          menuItem(1, "Barrios", Icons.house_rounded,
+          menuItem(1, "Consultar Comunas", Icons.house_rounded,
               currentPage == DrawerSections.consultarComunas ? true : false),
-          menuItem(2, "Habitantes", Icons.person_search,
+          menuItem(2, "Gestionar PQRS", Icons.person_search,
               currentPage == DrawerSections.addPC_screens ? true : false),
       
         ],
@@ -133,6 +145,31 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
     Fluttertoast.showToast(msg: "Logout Successfull");
     await _auth.signOut().then((value) => Navigator.of(context)
         .pushReplacement(MaterialPageRoute(builder: (context) => Login())));
+  }
+
+  ///////////////////////////////////////////////
+  void obtenerIdHabitante(var email) async {
+    String pCId = '';
+    await FirebaseFirestore.instance
+        .collection('Habitantes')
+        .where('email', isEqualTo: email)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        Map<String, dynamic> documentData = value.docs.single.data();
+        pCId = documentData['id'];
+      }
+    });
+
+    if (pCId == '') {
+      setState(() {
+        auxx = '';
+      });
+    } else {
+      setState(() {
+        auxx = pCId;
+      });
+    }
   }
 }
 
