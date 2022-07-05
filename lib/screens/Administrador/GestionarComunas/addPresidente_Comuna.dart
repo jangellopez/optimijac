@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:get/get.dart';
 import 'package:optimijac/models/habitantes_model.dart';
-import 'package:optimijac/screens/comunas/comunas_screens.dart';
 
 class AddPresidenteComuna extends StatefulWidget {
   final String docId;

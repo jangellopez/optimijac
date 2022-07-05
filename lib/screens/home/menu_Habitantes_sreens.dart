@@ -7,14 +7,6 @@ import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comuna
 import 'package:optimijac/screens/Habitante/Gestionar%20Solicitud/gestionSolicitud.dart';
 import 'package:optimijac/screens/Habitante/GestionarComunas/consultaComunas.dart';
 
-import 'package:optimijac/screens/barrios/barrios_screens.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
-import 'package:optimijac/screens/comunas/comunas_screens.dart';
-import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
-import 'package:optimijac/screens/pqrs/registrar_pqrs.dart';
-import '../PresidenteComunas/Gestionar Juntas/JuntaAccionComunal_Screens.dart';
-import '../barrios/addMiembro_Barrio.dart';
-import '../barrios/addMiembro_JAC.dart';
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
 

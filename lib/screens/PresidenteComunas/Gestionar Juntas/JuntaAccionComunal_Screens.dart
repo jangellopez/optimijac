@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/FiltroComuna_barrios.dart';
 
 import '../../../models/junta_model.dart';
 import '../../../shared/widget_Share.dart';

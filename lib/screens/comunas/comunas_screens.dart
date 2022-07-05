@@ -1,7 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:optimijac/screens/barrios/addMiembro_Barrio.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/FiltroComuna_barrios.dart';
 
 class Comunas extends StatefulWidget {
   Comunas({Key? key}) : super(key: key);

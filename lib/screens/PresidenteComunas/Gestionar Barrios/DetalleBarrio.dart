@@ -1,10 +1,6 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/models/barrio_model.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
 import 'package:optimijac/screens/PresidenteComunas/Gestionar%20Juntas/JuntaAccionComunal_Screens.dart';
 
 class DetalleBarrio extends StatefulWidget {
