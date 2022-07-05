@@ -1,10 +1,8 @@
-import 'dart:html';
 
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/models/solicitud_model.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
 
 class FiltroBarrios extends StatefulWidget {
   final String comunaId,idHabitante;

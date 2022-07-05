@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:optimijac/screens/Habitante%20si/GestionarBarrios/FiltroBarrios.dart';
-import 'package:optimijac/screens/barrios/addMiembro_Barrio.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/FiltroComuna_barrios.dart';
 
 class consultaComunas extends StatefulWidget {
   final String idHabitante;

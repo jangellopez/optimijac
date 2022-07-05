@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../shared/widget_Share.dart';
+import '../../../shared/widget_Share.dart';
 
 class RegistrarPqrs extends StatefulWidget {
   RegistrarPqrs({Key? key}) : super(key: key);

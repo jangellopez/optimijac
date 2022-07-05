@@ -3,17 +3,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comunas_screens.dart';
 import 'package:optimijac/screens/Habitante%20si/GestionarComunas/consultaComunas.dart';
+import 'package:optimijac/screens/Habitante%20si/pqrs/registrar_pqrs.dart';
 
-import 'package:optimijac/screens/barrios/barrios_screens.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
-import 'package:optimijac/screens/comunas/comunas_screens.dart';
-import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
-import 'package:optimijac/screens/pqrs/registrar_pqrs.dart';
-import '../PresidenteComunas/Gestionar Juntas/JuntaAccionComunal_Screens.dart';
-import '../barrios/addMiembro_Barrio.dart';
-import '../barrios/addMiembro_JAC.dart';
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
 
@@ -46,6 +38,8 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
       container = consultaComunas(auxx);
     } else if (currentPage == DrawerSections.addPC_screens) {
       container = addPC();
+    } else if (currentPage == DrawerSections.registrarPQRS){
+      container = RegistrarPqrs();
     }
 
     return Scaffold(
@@ -92,6 +86,7 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
               currentPage == DrawerSections.consultarComunas ? true : false),
           menuItem(2, "Gestionar PQRS", Icons.person_search,
               currentPage == DrawerSections.addPC_screens ? true : false),
+          menuItem(3, "Registrar PQRS", Icons.message, currentPage == DrawerSections.registrarPQRS ? true : false)
       
         ],
       ),
@@ -109,7 +104,9 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
               currentPage = DrawerSections.consultarComunas;
             } else if (id == 2) {
               currentPage = DrawerSections.addPC_screens;
-            } 
+            } else if (id == 3) {
+              currentPage = DrawerSections.registrarPQRS;
+            }
           });
         },
         child: Padding(
@@ -175,5 +172,6 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
 
 enum DrawerSections {
  consultarComunas,
- addPC_screens
+ addPC_screens,
+ registrarPQRS
 }

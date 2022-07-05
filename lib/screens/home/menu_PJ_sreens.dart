@@ -2,20 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comunas_screens.dart';
-import 'package:optimijac/screens/PresidenteComunas/Gestionar%20Barrios/DetalleBarrio.dart';
 import 'package:optimijac/screens/PresidenteComunas/Gestionar%20Barrios/PJbarrios_screens.dart';
 import 'package:optimijac/screens/PresidenteComunas/Gestionar%20Juntas/ConsultaJuntas.dart';
 
-import 'package:optimijac/screens/barrios/barrios_screens.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
-import 'package:optimijac/screens/comunas/comunas_screens.dart';
-import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
-import 'package:optimijac/screens/pqrs/registrar_pqrs.dart';
-import '../PresidenteComunas/Gestionar Juntas/JuntaAccionComunal_Screens.dart';
-import '../barrios/addMiembro_Barrio.dart';
-import '../barrios/addMiembro_JAC.dart';
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
 

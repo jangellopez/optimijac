@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../PresidenteComunas/Gestionar Barrios/barrios_adicionar_screens.dart';
 
 class Barrios extends StatefulWidget {
   Barrios({Key? key}) : super(key: key);
