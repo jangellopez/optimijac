@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
 import 'package:optimijac/screens/Habitante%20si/GestionarComunas/consultaComunas.dart';
-import 'package:optimijac/screens/Habitante%20si/pqrs/registrar_pqrs.dart';
 
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
@@ -38,8 +37,6 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
       container = consultaComunas(auxx);
     } else if (currentPage == DrawerSections.addPC_screens) {
       container = addPC();
-    } else if (currentPage == DrawerSections.registrarPQRS){
-      container = RegistrarPqrs();
     }
 
     return Scaffold(
@@ -86,7 +83,6 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
               currentPage == DrawerSections.consultarComunas ? true : false),
           menuItem(2, "Gestionar PQRS", Icons.person_search,
               currentPage == DrawerSections.addPC_screens ? true : false),
-          menuItem(3, "Registrar PQRS", Icons.message, currentPage == DrawerSections.registrarPQRS ? true : false)
       
         ],
       ),
@@ -104,9 +100,7 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
               currentPage = DrawerSections.consultarComunas;
             } else if (id == 2) {
               currentPage = DrawerSections.addPC_screens;
-            } else if (id == 3) {
-              currentPage = DrawerSections.registrarPQRS;
-            }
+            } 
           });
         },
         child: Padding(
@@ -173,5 +167,4 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
 enum DrawerSections {
  consultarComunas,
  addPC_screens,
- registrarPQRS
 }
