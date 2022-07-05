@@ -4,7 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
 import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comunas_screens.dart';
-import 'package:optimijac/screens/Habitante%20si/GestionarComunas/consultaComunas.dart';
+import 'package:optimijac/screens/Habitante/Gestionar%20Solicitud/gestionSolicitud.dart';
+import 'package:optimijac/screens/Habitante/GestionarComunas/consultaComunas.dart';
 
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
 import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
@@ -18,22 +19,22 @@ import '../login/login_screens.dart';
 import 'drawer_header.dart';
 
 class Menu_Habitante extends StatefulWidget {
- 
   final String email, rolIdentificado;
-  Menu_Habitante(this.email, this.rolIdentificado, {Key? key}) : super(key: key);
-  
+  Menu_Habitante(this.email, this.rolIdentificado, {Key? key})
+      : super(key: key);
+
   @override
   State<Menu_Habitante> createState() => _Menu_HabitanteState();
 }
 
 class _Menu_HabitanteState extends State<Menu_Habitante> {
-   String auxx = '';
+  String auxx = '';
   final _auth = FirebaseAuth.instance;
   var currentPage = DrawerSections.consultarComunas;
 
-   @override
+  @override
   void initState() {
-     obtenerIdHabitante(widget.email);
+    obtenerIdHabitante(widget.email);
 
     super.initState();
   }
@@ -46,6 +47,9 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
       container = consultaComunas(auxx);
     } else if (currentPage == DrawerSections.addPC_screens) {
       container = addPC();
+    } else if (currentPage == DrawerSections.addPC_screens) {
+       print('llego: ' + auxx);
+      container = gestionSolicitud(auxx);
     }
 
     return Scaffold(
@@ -92,7 +96,8 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
               currentPage == DrawerSections.consultarComunas ? true : false),
           menuItem(2, "Gestionar PQRS", Icons.person_search,
               currentPage == DrawerSections.addPC_screens ? true : false),
-      
+          menuItem(3, "Gestionar Solicitud", Icons.person_search,
+              currentPage == DrawerSections.solicitudConsultar ? true : false),
         ],
       ),
     );
@@ -109,7 +114,9 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
               currentPage = DrawerSections.consultarComunas;
             } else if (id == 2) {
               currentPage = DrawerSections.addPC_screens;
-            } 
+            } else if (id == 3) {
+              currentPage = DrawerSections.solicitudConsultar;
+            }
           });
         },
         child: Padding(
@@ -173,7 +180,4 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
   }
 }
 
-enum DrawerSections {
- consultarComunas,
- addPC_screens
-}
+enum DrawerSections { consultarComunas, addPC_screens,solicitudConsultar }
