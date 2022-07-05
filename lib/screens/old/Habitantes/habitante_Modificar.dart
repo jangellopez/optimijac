@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../models/barrio_model.dart';
-import '../../shared/widget_Share.dart';
+import '../../../models/barrio_model.dart';
+import '../../../shared/widget_Share.dart';
 
 class ModificarHabitantes extends StatefulWidget {
   ModificarHabitantes({Key? key}) : super(key: key);

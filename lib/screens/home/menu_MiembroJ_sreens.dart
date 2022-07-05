@@ -1,8 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comunas_screens.dart';
 import 'package:optimijac/screens/MiembroJAC/Gestionar%20Habitantes/addMJ_screens.dart';
 import 'package:optimijac/screens/MiembroJAC/Gestionar%20Solicitudes/addMJ_screens.dart';
 
@@ -133,5 +131,5 @@ class _Menu_MiembroState extends State<Menu_Miembro> {
 
 enum DrawerSections {
  consultarHabitante,
- consultaSolicituded
+ consultaSolicituded,
 }

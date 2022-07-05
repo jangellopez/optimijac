@@ -2,10 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
-import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comunas_screens.dart';
 import 'package:optimijac/screens/Habitante/Gestionar%20Solicitud/gestionSolicitud.dart';
 import 'package:optimijac/screens/Habitante/GestionarComunas/consultaComunas.dart';
+import 'package:optimijac/screens/Habitante/gestionar%20PQRS/registrar_pqrs.dart';
 
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
@@ -37,9 +36,9 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
     if (currentPage == DrawerSections.consultarComunas) {
       print('llego: ' + auxx);
       container = consultaComunas(auxx);
-    } else if (currentPage == DrawerSections.addPC_screens) {
-      container = addPC();
-    } else if (currentPage == DrawerSections.addPC_screens) {
+    } else if (currentPage == DrawerSections.gestionarPQRS) {
+      container = RegistrarPqrs();
+    } else if (currentPage == DrawerSections.solicitudConsultar) {
        print('llego: ' + auxx);
       container = gestionSolicitud(auxx);
     }
@@ -87,7 +86,7 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
           menuItem(1, "Consultar Comunas", Icons.house_rounded,
               currentPage == DrawerSections.consultarComunas ? true : false),
           menuItem(2, "Gestionar PQRS", Icons.person_search,
-              currentPage == DrawerSections.addPC_screens ? true : false),
+              currentPage == DrawerSections.gestionarPQRS ? true : false),
           menuItem(3, "Gestionar Solicitud", Icons.person_search,
               currentPage == DrawerSections.solicitudConsultar ? true : false),
         ],
@@ -105,7 +104,7 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
             if (id == 1) {
               currentPage = DrawerSections.consultarComunas;
             } else if (id == 2) {
-              currentPage = DrawerSections.addPC_screens;
+              currentPage = DrawerSections.gestionarPQRS;
             } else if (id == 3) {
               currentPage = DrawerSections.solicitudConsultar;
             }
@@ -172,4 +171,4 @@ class _Menu_HabitanteState extends State<Menu_Habitante> {
   }
 }
 
-enum DrawerSections { consultarComunas, addPC_screens,solicitudConsultar }
+enum DrawerSections { consultarComunas, gestionarPQRS,solicitudConsultar }
