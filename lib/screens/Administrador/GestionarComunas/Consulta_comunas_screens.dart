@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:optimijac/screens/comunas/barrios_filter.dart';
+import 'package:optimijac/screens/barrios/addMiembro_Barrio.dart';
+import 'package:optimijac/screens/Administrador/GestionarComunas/FiltroComuna_barrios.dart';
 
-class JAC extends StatefulWidget {
-  JAC({Key? key}) : super(key: key);
+class ConsultaComunas extends StatefulWidget {
+  ConsultaComunas({Key? key}) : super(key: key);
 
   @override
-  State<JAC> createState() => _JAC();
+  State<ConsultaComunas> createState() => _ConsultaComunasState();
 }
 
-class _JAC extends State<JAC> {
+class _ConsultaComunasState extends State<ConsultaComunas> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -34,7 +35,7 @@ class _JAC extends State<JAC> {
                     return GestureDetector(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => BarriosFilter(
+                            builder: (context) => FiltroComuna_Barrio(
                                 snapshot.data!.docs[index]['comunaId'])));
                       },
                       child: _buildCard(
@@ -89,3 +90,4 @@ class _JAC extends State<JAC> {
             : EdgeInsets.fromLTRB(25.0, 0.0, 5.0, 10.0));
   }
 }
+

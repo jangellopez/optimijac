@@ -1,10 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:optimijac/screens/home/menu_sreens.dart';
+import 'package:optimijac/screens/home/menu_Admin_sreens.dart';
+import 'package:optimijac/screens/home/menu_Habitantes_sreens.dart';
+import 'package:optimijac/screens/home/menu_MiembroJ_sreens.dart';
+import 'package:optimijac/screens/home/menu_PJ_sreens.dart';
 import 'package:optimijac/shared/widget_Share.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:io';
@@ -23,12 +27,15 @@ class EditarPerfil extends StatefulWidget {
 
 class _EditarPerfilState extends State<EditarPerfil> {
   //Variables
+  String rolIdentificado = '';
   String valorTipoId = 'Cedula';
   String valorGenero = 'Masculino';
   var itemsTipoId = ['Cedula', 'Tarjeta identidad', 'Pasaporte'];
   var itemsGenero = ['Masculino', 'Femenino'];
   var aux = false;
   late String imageUrl;
+  var user2 = FirebaseAuth.instance.currentUser?.uid.toString();
+
   //late Future<String> _future;
   //Controler
   late TextEditingController idController;
@@ -500,7 +507,22 @@ class _EditarPerfilState extends State<EditarPerfil> {
 
   //registrar Funcion
   void modificar(String email, String password, String id) async {
+    String rRol = '';
+    await FirebaseFirestore.instance
+        .collection('Habitantes')
+        .where('email', isEqualTo: email)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        Map<String, dynamic> documentData = value.docs.single.data();
+        rRol = documentData['rRol'];
+      }
+    });
+   
+    print('rol identificado: ' + rRol);
+  
     if (_formKey.currentState!.validate()) {
+      print('id de la editar ' + id);
       //crear en colleccion
       final docHabitante =
           FirebaseFirestore.instance.collection("Habitantes").doc(id);
@@ -532,7 +554,29 @@ class _EditarPerfilState extends State<EditarPerfil> {
           .update(json)
           .then((value) => {
                 Fluttertoast.showToast(msg: "Perfil Completado"),
-                singIn(email, password),
+                if (rRol == 'HABITANTE')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_Habitante(email, rRol))),
+                  }
+                ////////////////////////////////////////////////////////
+                else if (rRol == 'ADMINISTRADOR')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_Admin(email, rRol))),
+                  }
+                ////////////////////////////////////////////////////////
+                else if (rRol == 'PRESIDENTE COMUNA')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_PJ(email, rRol))),
+                  }
+                ////////////////////////////////////////////////////////
+                else if (rRol == 'MIEMBRO JAC')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_Miembro(email, rRol))),
+                  }
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
@@ -540,19 +584,8 @@ class _EditarPerfilState extends State<EditarPerfil> {
     }
   }
 
-  //Login Funcion
-  void singIn(String email, String password) async {
-    await _auth
-        .signInWithEmailAndPassword(email: email, password: password)
-        .then((value) => {
-              Fluttertoast.showToast(msg: "Bienvenido"),
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: (context) => Menu(email))),
-            })
-        .catchError((e) {
-      Fluttertoast.showToast(msg: e!.message);
-    });
-  }
+  
+
   //cargar la imagen abriendo la galeria del celular
   uploadImage() async {
     final _storage = FirebaseStorage.instance;

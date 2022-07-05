@@ -1,47 +1,39 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/PresidenteComunas/PresidentesComunas_screens.dart';
+import 'package:optimijac/screens/Administrador/GestionPresidentes/addPC_screens.dart';
+import 'package:optimijac/screens/Administrador/GestionarComunas/Consulta_comunas_screens.dart';
+
 import 'package:optimijac/screens/barrios/barrios_screens.dart';
+import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
 import 'package:optimijac/screens/comunas/comunas_screens.dart';
 import 'package:optimijac/screens/Habitantes/habitantes_screens.dart';
 import 'package:optimijac/screens/pqrs/registrar_pqrs.dart';
-import '../JAC/JuntaAccionComunal_Screens.dart';
+import '../PresidenteComunas/Gestionar Juntas/JuntaAccionComunal_Screens.dart';
 import '../barrios/addMiembro_Barrio.dart';
 import '../barrios/addMiembro_JAC.dart';
 import '../login/login_screens.dart';
 import 'drawer_header.dart';
 
-class Menu extends StatefulWidget {
-  final String email;
-  Menu(this.email, {Key? key}) : super(key: key);
-
+class Menu_Habitante extends StatefulWidget {
+ 
+  final String email, rolIdentificado;
+  Menu_Habitante(this.email, this.rolIdentificado, {Key? key}) : super(key: key);
+  
   @override
-  State<Menu> createState() => _MenuState();
+  State<Menu_Habitante> createState() => _Menu_HabitanteState();
 }
 
-class _MenuState extends State<Menu> {
+class _Menu_HabitanteState extends State<Menu_Habitante> {
   final _auth = FirebaseAuth.instance;
-  var currentPage = DrawerSections.barrios;
+  var currentPage = DrawerSections.consultarComunas;
   @override
   Widget build(BuildContext context) {
     var container;
-    if (currentPage == DrawerSections.barrios) {
-      container = Barrios();
-    } else if (currentPage == DrawerSections.habitantes) {
-      container = Habitantes();
-    } else if (currentPage == DrawerSections.comunas) {
-      container = Comunas();
-    } else if (currentPage == DrawerSections.jac) {
-      container = JAC();
-    } else if (currentPage == DrawerSections.addMiembroBarrio) {
-      container = AddMiembroBarrio();
-    } else if (currentPage == DrawerSections.addMiembroJAC) {
-      container = AddMiembroJAC();
-    } else if (currentPage == DrawerSections.addPresiAsocomuna) {
-      container = PresidenteComuna();
-    } else if (currentPage == DrawerSections.registrarPqrs){
-      container = RegistrarPqrs();
+    if (currentPage == DrawerSections.consultarComunas) {
+      container = ConsultaComunas();
+    } else if (currentPage == DrawerSections.addPC_screens) {
+      container = addPC();
     }
 
     return Scaffold(
@@ -85,21 +77,10 @@ class _MenuState extends State<Menu> {
         // shows the list of menu drawer
         children: [
           menuItem(1, "Barrios", Icons.house_rounded,
-              currentPage == DrawerSections.barrios ? true : false),
+              currentPage == DrawerSections.consultarComunas ? true : false),
           menuItem(2, "Habitantes", Icons.person_search,
-              currentPage == DrawerSections.habitantes ? true : false),
-          menuItem(3, "Comunas", Icons.business_rounded,
-              currentPage == DrawerSections.comunas ? true : false),
-          menuItem(4, "JAC", Icons.business_rounded,
-              currentPage == DrawerSections.jac ? true : false),
-          menuItem(5, "Habitantes Solicitud", Icons.business_rounded,
-              currentPage == DrawerSections.addMiembroBarrio ? true : false),
-          menuItem(6, "Solicitud JAC", Icons.business_rounded,
-              currentPage == DrawerSections.addMiembroJAC ? true : false),
-          menuItem(7, "Presidente Comunas", Icons.business_rounded,
-              currentPage == DrawerSections.addPresiAsocomuna ? true : false),
-          menuItem(8, "Registrar PQRS", Icons.message_rounded,
-              currentPage == DrawerSections.registrarPqrs ? true : false)
+              currentPage == DrawerSections.addPC_screens ? true : false),
+      
         ],
       ),
     );
@@ -113,22 +94,10 @@ class _MenuState extends State<Menu> {
           Navigator.pop(context);
           setState(() {
             if (id == 1) {
-              currentPage = DrawerSections.barrios;
+              currentPage = DrawerSections.consultarComunas;
             } else if (id == 2) {
-              currentPage = DrawerSections.habitantes;
-            } else if (id == 3) {
-              currentPage = DrawerSections.comunas;
-            } else if (id == 4) {
-              currentPage = DrawerSections.jac;
-            } else if (id == 5) {
-              currentPage = DrawerSections.addMiembroBarrio;
-            } else if (id == 6) {
-              currentPage = DrawerSections.addMiembroJAC;
-            } else if (id == 7) {
-              currentPage = DrawerSections.addPresiAsocomuna;
-            } else if (id == 8) {
-              currentPage = DrawerSections.registrarPqrs;
-            }
+              currentPage = DrawerSections.addPC_screens;
+            } 
           });
         },
         child: Padding(
@@ -168,13 +137,6 @@ class _MenuState extends State<Menu> {
 }
 
 enum DrawerSections {
-  barrios,
-  habitantes,
-  comunas,
-  jac,
-  addMiembroBarrio,
-  addMiembroJAC,
-  addPresiAsocomuna,
-  
-  registrarPqrs
+ consultarComunas,
+ addPC_screens
 }

@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/Habitantes/editar_perfil.dart';
+import 'package:optimijac/screens/login/editar_perfil.dart';
 import 'package:optimijac/shared/widget_Share.dart';
 
 import '../../models/habitantes_model.dart';
@@ -23,6 +23,8 @@ class _RegisterState extends State<Register> {
   //VisiblePassword
   bool _isObscure = true;
   bool _isObscureDos = true;
+  var user3;
+  var docHabitante;
   // Firebase
   final _auth = FirebaseAuth.instance;
   //Key formulario
@@ -269,14 +271,19 @@ class _RegisterState extends State<Register> {
   //registrar Funcion
   void registrar(String email, String password, String confirmPassword) async {
     if (_formKey.currentState!.validate()) {
-      //crear en colleccion
-      final docHabitante =
-          FirebaseFirestore.instance.collection("Habitantes").doc();
-
       await _auth
           .createUserWithEmailAndPassword(email: email, password: password)
           .then((value) => {
                 Fluttertoast.showToast(msg: "Usuario Creado"),
+                singIn(email, password),
+                //obtenemos el uid
+                user3 = FirebaseAuth.instance.currentUser?.uid.toString(),
+                print('primer mensaje:  ' + user3),
+                //crear en colleccion con uid
+                docHabitante = FirebaseFirestore.instance
+                    .collection("Habitantes")
+                    .doc(user3),
+                //navegamos
                 Navigator.of(context).pushReplacement(MaterialPageRoute(
                     builder: (context) => EditarPerfil(
                         email, password, docHabitante.id, imageDefaultUrl)))
@@ -312,7 +319,21 @@ class _RegisterState extends State<Register> {
       Fluttertoast.showToast(msg: "Complete su Perfil");
       //Navigator.pop(context);
     }
+    user3 = 'vacio';
   }
+
+  //Login Funcion
+  void singIn(String email, String password) async {
+    await _auth
+        .signInWithEmailAndPassword(email: email, password: password)
+        .then((value) => {
+              Fluttertoast.showToast(msg: "Bienvenido"),
+            })
+        .catchError((e) {
+      Fluttertoast.showToast(msg: e!.message);
+    });
+  }
+
   //colocar imagen predeterminada
   Future<void> loadImage() async {
     var imageUrl = await FirebaseStorage.instance

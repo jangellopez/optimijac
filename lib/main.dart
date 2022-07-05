@@ -2,7 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:optimijac/screens/Habitantes/editar_perfil.dart';
+import 'package:optimijac/screens/login/editar_perfil.dart';
 import 'package:optimijac/screens/login/login_screens.dart';
 import 'package:optimijac/screens/login/register_screens.dart';
 //flutter run -d chrome --web-renderer html

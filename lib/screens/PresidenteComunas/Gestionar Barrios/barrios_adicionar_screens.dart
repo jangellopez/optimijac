@@ -2,26 +2,20 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import '../../models/barrio_model.dart';
-import '../../shared/widget_Share.dart';
+import '../../../models/barrio_model.dart';
+import '../../../shared/widget_Share.dart';
 
 class AdicionarBarrios extends StatefulWidget {
-  AdicionarBarrios({Key? key}) : super(key: key);
+  final String idComuna;
+  AdicionarBarrios(this.idComuna,{Key? key}) : super(key: key);
 
   @override
   State<AdicionarBarrios> createState() => _AdicionarBarrios();
 }
 
 class _AdicionarBarrios extends State<AdicionarBarrios> {
-  String valorComuna = 'Comuna 1';
-  var itemsComuna = [
-    'Comuna 1',
-    'Comuna 2',
-    'Comuna 3',
-    'Comuna 4',
-    'Comuna 5',
-    'Comuna 6'
-  ];
+  String valorComuna = '';
+  
   //objeto barrio
   var aux = false;
   //Controler
@@ -44,13 +38,12 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff04b554),
-        centerTitle: true,
-        title: Text(
-          'Optimijac',
-          style: TextStyle(fontWeight: FontWeight.bold),
-        )
-      ),
+          backgroundColor: Color(0xff04b554),
+          centerTitle: true,
+          title: Text(
+            'Optimijac',
+            style: TextStyle(fontWeight: FontWeight.bold),
+          )),
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
@@ -109,29 +102,6 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
                       border: Border.all(color: Colors.grey.shade200, width: 1),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 20.0, right: 20.0),
-                      child: DropdownButtonFormField<String>(
-                        hint: Text('Seleccionar'),
-                        decoration: InputDecoration(
-                            border: InputBorder.none,
-                            labelText: 'Comuna',
-                            labelStyle: TextStyle(color: Color(0xff04b554))),
-                        borderRadius: BorderRadius.circular(12),
-                        icon: const Icon(Icons.keyboard_arrow_down),
-                        items: itemsComuna.map((String items) {
-                          return DropdownMenuItem<String>(
-                            value: items,
-                            child: Text(items),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            valorComuna = newValue!;
-                          });
-                        },
-                      ),
-                    ),
                   ),
                 ),
                 //BOTONESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS
@@ -146,9 +116,9 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
                         padding: EdgeInsets.all(20),
                       ),
                       onPressed: () {
-                        comunaControlller.text = valorComuna;
+                        
                         crearBarrio(
-                            nombreController.text, comunaControlller.text);
+                            nombreController.text, widget.idComuna);
                       },
                       child: Container(
                         child: Center(
@@ -174,35 +144,13 @@ class _AdicionarBarrios extends State<AdicionarBarrios> {
     if (_formKey.currentState!.validate()) {
       final docBarrio = FirebaseFirestore.instance.collection("Barrios").doc();
 
-      String comunaId = "";
-
-      switch (comuna) {
-        case "Comuna 1":
-          comunaId = "1";
-          break;
-        case "Comuna 2":
-          comunaId = "2";
-          break;
-        case "Comuna 3":
-          comunaId = "3";
-          break;
-        case "Comuna 4":
-          comunaId = "4";
-          break;
-        case "Comuna 5":
-          comunaId = "5";
-          break;
-        case "Comuna 6":
-          comunaId = "6";
-          break;
-      }
-
       //mapeo
       final barrio = Barrio(
         id: docBarrio.id,
         nombre: nombre,
-        comunaId: comunaId,
+        comunaId: comuna,
         numeroHabitantes: "15",
+        juntaId: ''
       );
 
       final json = barrio.toJson();

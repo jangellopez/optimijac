@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'barrios_adicionar_screens.dart';
+import '../PresidenteComunas/Gestionar Barrios/barrios_adicionar_screens.dart';
 
 class AddMiembroBarrio extends StatefulWidget {
 

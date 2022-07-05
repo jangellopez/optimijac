@@ -179,6 +179,7 @@ class _ModificarHabitantes extends State<ModificarHabitantes> {
         nombre: name,
         comunaId: cominaID,
         numeroHabitantes: "15",
+        juntaId: ''
       );
 
       final json = barrio.toJson();

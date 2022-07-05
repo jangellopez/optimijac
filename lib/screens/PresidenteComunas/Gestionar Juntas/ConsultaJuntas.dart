@@ -4,18 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:optimijac/models/habitantes_model.dart';
 
-class PresidenteComuna extends StatefulWidget {
-  PresidenteComuna({Key? key}) : super(key: key);
+import '../../../models/junta_model.dart';
+
+class ConsultaJuntas extends StatefulWidget {
+  ConsultaJuntas({Key? key}) : super(key: key);
 
   @override
-  State<PresidenteComuna> createState() => _PresidenteComunaState();
+  State<ConsultaJuntas> createState() => _ConsultaJuntasState();
 }
 
-class _PresidenteComunaState extends State<PresidenteComuna> {
+class _ConsultaJuntasState extends State<ConsultaJuntas> {
   final _auth = FirebaseAuth.instance;
   TextEditingController _searchview = TextEditingController();
   //lista de habitanes
-  List<PresidenteComuna> habitantes = [];
+  List<ConsultaJuntas> habitantes = [];
 
   @override
   Widget build(BuildContext context) {
@@ -24,8 +26,7 @@ class _PresidenteComunaState extends State<PresidenteComuna> {
             child: new Center(
                 child: StreamBuilder(
                     stream: FirebaseFirestore.instance
-                        .collection('Habitantes')
-                        .where('rRol', isNotEqualTo: 'PRESIDENTE COMUNA')
+                        .collection('Junta')
                         .snapshots(),
                     builder: (BuildContext context,
                         AsyncSnapshot<QuerySnapshot> snapshot) {
@@ -80,16 +81,13 @@ class _PresidenteComunaState extends State<PresidenteComuna> {
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
-Future<List<Habitante>> getAll() async {
-  var snapshot = await FirebaseFirestore.instance
-      .collection('Habitantes')
-      .where('rRol', isNotEqualTo: 'PRESIDENTE COMUNA')
-      .get();
-  List<Habitante> habitante = [];
+Future<List<Junta>> getAll() async {
+  var snapshot = await FirebaseFirestore.instance.collection('Junta').get();
+  List<Junta> junta = [];
   snapshot.docs.forEach((doc) {
-    habitante.add(Habitante.fromMap(doc.data()));
+    junta.add(Junta.fromMap(doc.data()));
   });
-  return habitante;
+  return junta;
 }
 
 ////////////////////////////////////////////////////////////////////////////////////////
@@ -107,78 +105,47 @@ class Rows extends StatelessWidget {
           return Center(child: CircularProgressIndicator());
         }
 
-        List<Habitante> habitantes = snapshot.data as List<Habitante>;
-        if (habitantes == null || habitantes.isEmpty) {
-          return Text("No hay ningun habitante registrado");
+        List<Junta> junta = snapshot.data as List<Junta>;
+        if (junta == null || junta.isEmpty) {
+          return Text("No hay ningun Junta registrado");
         }
 
         if (text.isNotEmpty) {
           var t = text.toLowerCase();
-          habitantes = habitantes
-              .where((h) => h.nombres.contains(t) || h.apellidos.contains(t))
-              .toList();
+          junta = junta.where((h) => h.nombre.contains(t)).toList();
         }
 
         return ListView.builder(
-            itemCount: habitantes.length,
+            itemCount: junta.length,
             itemBuilder: (BuildContext context, int index) {
-              var h = habitantes[index];
-              return ListTile(
-                onTap: () {
-                  modificar(context, h.id);
-                },
-                title: Text(h.nombres + " " + h.apellidos),
-                leading: CircleAvatar(
-                  child: Text(h.nombres.substring(0, 1)),
+              var h = junta[index];
+              return TextButton(
+                onPressed: () {},
+                child: Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(10.0),
+                    child: Row(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(10.0),
+                          child: CircleAvatar(
+                            backgroundColor: Color(0xff04b554),
+                            child: Icon(Icons.holiday_village),
+                          ),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('NOMBRE: ' + h.nombre),
+                          ],
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               );
             });
       },
     );
   }
-}
-
-void modificar(context, String id) {
-  showDialog(
-      context: context,
-      builder: (_) => AlertDialog(
-            title: Text('Modificar Rol'),
-            content: Text('Estas Seguro que deseas modificar el Habitante'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  //crear en colleccion
-                  final docHabitante = FirebaseFirestore.instance
-                      .collection("Habitantes")
-                      .doc(id);
-                  //crear el documento y escribir en Firebae
-                  docHabitante
-                      .update({'rRol': 'PRESIDENTE COMUNA'})
-                      .then((value) => {
-                            Fluttertoast.showToast(msg: "Modificado"),
-                          })
-                      .catchError((e) {
-                        Fluttertoast.showToast(msg: e!.message);
-                      });
-
-                  //mapeo
-
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Modificar',
-                  style: TextStyle(color: Colors.red),
-                ),
-              ),
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text(
-                  'Cancelar',
-                  style: TextStyle(color: Colors.blue),
-                ),
-              )
-            ],
-          ));
 }

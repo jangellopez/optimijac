@@ -1,17 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:optimijac/screens/PresidenteComunas/Gestionar%20Barrios/DetalleBarrio.dart';
+import 'package:optimijac/screens/PresidenteComunas/Gestionar%20Barrios/barrios_adicionar_screens.dart';
 
-import '../PresidenteComunas/Gestionar Barrios/barrios_adicionar_screens.dart';
-
-class Barrios extends StatefulWidget {
-  Barrios({Key? key}) : super(key: key);
+class ConsultarBarrios extends StatefulWidget {
+  final String idComuna;
+  ConsultarBarrios(this.idComuna, {Key? key}) : super(key: key);
 
   @override
-  State<Barrios> createState() => _BarriosState();
+  State<ConsultarBarrios> createState() => _ConsultarBarriosState();
 }
 
-class _BarriosState extends State<Barrios> {
+class _ConsultarBarriosState extends State<ConsultarBarrios> {
+  String docId = '', idBarrio='';
+  String nombreDos = '', documentIdPresident = '';
+  @override
+  void initState() {
+    verificarPresidente(widget.idComuna);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,8 +32,10 @@ class _BarriosState extends State<Barrios> {
             //Texto
 
             child: StreamBuilder(
-              stream:
-                  FirebaseFirestore.instance.collection('Barrios').snapshots(),
+              stream: FirebaseFirestore.instance
+                  .collection('Barrios')
+                  .where('comunaId', isEqualTo: widget.idComuna)
+                  .snapshots(),
               builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
                 if (!snapshot.hasData) {
                   return Center(
@@ -39,13 +50,15 @@ class _BarriosState extends State<Barrios> {
                     itemCount: snapshot.data!.docs.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onLongPress: () {
-                          eliminarBarrio(
-                              context,
-                              snapshot.data!.docs[index]['id'],
-                              snapshot.data!.docs[index]['nombre']);
+                        onTap: () {
+                          idBarrio = snapshot.data!.docs[index]['id'];
+
+                           Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => DetalleBarrio(widget.idComuna, idBarrio))); 
                         },
+                        onLongPress: () {},
                         child: _buildCard(
+                          
                             snapshot.data!.docs[index]['nombre'],
                             snapshot.data!.docs[index]['numeroHabitantes'],
                             index + 1),
@@ -54,12 +67,20 @@ class _BarriosState extends State<Barrios> {
               },
             ),
           )),
-
-      //Boton flotante
+             //Boton flotante
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-         
-          
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  //llamar el add barrio
+                  AdicionarBarrios(widget.idComuna), //Llamar la Vista TextoEjercicio
+            ),
+          ).then((resultado) {
+            //metodo agregar del Firebase
+            setState(() {});
+          });
         },
         backgroundColor: Color(0xff04b554),
         child: Icon(Icons.add),
@@ -145,5 +166,30 @@ class _BarriosState extends State<Barrios> {
                 )
               ],
             ));
+  }
+
+  void verificarPresidente(var comunaId) async {
+    String pCId = '';
+    await FirebaseFirestore.instance
+        .collection('comunas')
+        .where('comunaId', isEqualTo: comunaId)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        Map<String, dynamic> documentData = value.docs.single.data();
+        pCId = documentData['presidenteComunaId'];
+      }
+      print(pCId);
+    });
+  }
+
+  void getBarrioId(String id) async {
+    final ref = await FirebaseFirestore.instance
+        .collection('Barrios')
+        .where('comunaId', isEqualTo: widget.idComuna)
+        .get();
+    setState(() {
+      documentIdPresident = ref.docs[0].id;
+    });
   }
 }

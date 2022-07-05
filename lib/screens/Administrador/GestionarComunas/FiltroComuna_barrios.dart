@@ -3,21 +3,21 @@ import 'dart:html';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:optimijac/screens/comunas/addPresidente_Comuna.dart';
+import 'package:optimijac/screens/Administrador/GestionarComunas/addPresidente_Comuna.dart';
 
-class BarriosFilter extends StatefulWidget {
+class FiltroComuna_Barrio extends StatefulWidget {
   final String comunaId;
-  BarriosFilter(this.comunaId, {Key? key}) : super(key: key);
+  FiltroComuna_Barrio(this.comunaId, {Key? key}) : super(key: key);
 
   @override
-  State<BarriosFilter> createState() => _BarriosFilterState();
+  State<FiltroComuna_Barrio> createState() => _FiltroComuna_BarrioState();
 }
 
-class _BarriosFilterState extends State<BarriosFilter> {
+class _FiltroComuna_BarrioState extends State<FiltroComuna_Barrio> {
   String docId = '';
   bool IsVisiblePresident = false;
   bool IsVisibleButton = false;
-  String documentIdPresident = '';
+  String nombreDos = '', documentIdPresident = '';
   @override
   void initState() {
     verificarPresidente(widget.comunaId);
@@ -58,15 +58,14 @@ class _BarriosFilterState extends State<BarriosFilter> {
                     Container(
                         height: 200,
                         child: Row(children: <Widget>[
-                          Expanded(
+                          Container(
                             child: Container(
-                              padding: const EdgeInsets.all(20),
-                              child: const Text("PRESIDENTE COMUNA"),
+                              child: const Text("   PRESIDENTE COMUNA:  "),
                             ),
                           ),
                           Visibility(
                               visible: IsVisiblePresident,
-                              child: Text('Pedro')),
+                              child: Text('   ' + nombreDos)),
                           Visibility(
                             visible: IsVisibleButton == true,
                             child: Container(
@@ -86,7 +85,8 @@ class _BarriosFilterState extends State<BarriosFilter> {
                                         builder: (context) =>
                                             //llamar el add barrio
 
-                                            AddPresidenteComuna(documentIdPresident), //Llamar la Vista TextoEjercicio
+                                            AddPresidenteComuna(
+                                                documentIdPresident), //Llamar la Vista TextoEjercicio
                                       ),
                                     ).then((resultado) {
                                       //metodo agregar del Firebase
@@ -141,8 +141,23 @@ class _BarriosFilterState extends State<BarriosFilter> {
         Map<String, dynamic> documentData = value.docs.single.data();
         pCId = documentData['presidenteComunaId'];
       }
+      print(pCId);
     });
 
+    //
+    String nombre = '';
+    await FirebaseFirestore.instance
+        .collection('Habitantes')
+        .where('id', isEqualTo: pCId)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        Map<String, dynamic> documentData = value.docs.single.data();
+        nombre = documentData['nombres'] + ' ' + documentData['apellidos'];
+      }
+      print(nombre);
+    });
+    nombreDos = nombre;
     if (pCId == '') {
       setState(() {
         IsVisibleButton = true;

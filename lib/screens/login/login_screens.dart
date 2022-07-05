@@ -1,8 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:optimijac/screens/home/menu_Habitantes_sreens.dart';
+import 'package:optimijac/screens/home/menu_MiembroJ_sreens.dart';
+import 'package:optimijac/screens/home/menu_PJ_sreens.dart';
 import 'package:optimijac/screens/login/register_screens.dart';
-import 'package:optimijac/screens/home/menu_sreens.dart';
+import 'package:optimijac/screens/home/menu_Admin_sreens.dart';
 import 'package:optimijac/shared/widget_Share.dart';
 
 class Login extends StatefulWidget {
@@ -16,12 +20,15 @@ class _LoginState extends State<Login> {
   //Controller
   TextEditingController _usuarioTextoController = TextEditingController();
   TextEditingController _passwordTextoController = TextEditingController();
+  TextEditingController _rolController = TextEditingController();
   //VisiblePassword
   bool _isObscure = true;
+  String rolIdentificado = '';
   // Firebase
   final _auth = FirebaseAuth.instance;
   //Key formulario
   final _formKey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -143,12 +150,10 @@ class _LoginState extends State<Login> {
                       padding: const EdgeInsets.symmetric(horizontal: 25.0),
                       child: ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12)
-                          ),
-                          primary: Color(0xff04b554),
-                          padding: EdgeInsets.all(20)
-                        ),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12)),
+                            primary: Color(0xff04b554),
+                            padding: EdgeInsets.all(20)),
                         onPressed: () {
                           //Navigator.push(context,MaterialPageRoute(builder: (context) => Menu()));
                           singIn(_usuarioTextoController.text,
@@ -208,18 +213,54 @@ class _LoginState extends State<Login> {
   }
 
 //Login Funcion
+
   void singIn(String email, String password) async {
+    String rRol = '';
+    await FirebaseFirestore.instance
+        .collection('Habitantes')
+        .where('email', isEqualTo: email)
+        .get()
+        .then((value) {
+      if (value.docs.isNotEmpty) {
+        Map<String, dynamic> documentData = value.docs.single.data();
+        rRol = documentData['rRol'];
+      }
+    });
+
+    print('rol identificado: ' + rRol);
     if (_formKey.currentState!.validate()) {
       await _auth
           .signInWithEmailAndPassword(email: email, password: password)
           .then((value) => {
                 Fluttertoast.showToast(msg: "Login Successfull"),
-                Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(builder: (context) => Menu(email))),
+                print('Envio: ' + rRol),
+                if (rRol == 'HABITANTE')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_Habitante(email, rRol))),
+                  }
+                ////////////////////////////////////////////////////////
+                else if (rRol == 'ADMINISTRADOR')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_Admin(email, rRol))),
+                  }
+                ////////////////////////////////////////////////////////
+                else if (rRol == 'PRESIDENTE COMUNA')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_PJ(email, rRol))),
+                  }
+                ////////////////////////////////////////////////////////
+                else if (rRol == 'MIEMBRO JAC')
+                  {
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(
+                        builder: (context) => Menu_Miembro(email, rRol))),
+                  }
               })
           .catchError((e) {
         Fluttertoast.showToast(msg: e!.message);
       });
-    } 
+    }
   }
 }
